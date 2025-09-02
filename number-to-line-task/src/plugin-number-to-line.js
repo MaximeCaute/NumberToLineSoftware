@@ -353,7 +353,7 @@ var numberToLine = (function (jspsych) {
         static createMouseClickedListener(trial, jsPsych){
           // Although `addEventListener` does not seem to care, we make the function async for convenience.
           return async function(e){
-            if(!trial.displayedStimulus | trial.answered)
+            if(!trial.displayedStimulus || trial.answered)
               return;
 
             // Save position asap to avoid movement issues
