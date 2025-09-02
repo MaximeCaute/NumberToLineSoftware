@@ -179,7 +179,7 @@ var numberToLine = (function (jspsych) {
           case WholeAndFractionOperation.ID:
             return new WholeAndFractionOperation(components)
           default:
-            throw new Error(`Invalid type: {type}!`)
+            throw new Error(`Invalid type: ${type}!`)
         }
       }
 
