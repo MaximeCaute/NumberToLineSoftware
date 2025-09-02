@@ -32,7 +32,6 @@ Index should pass an ID, file without extension (fetched in `config/number-to-li
 
 # TODO
 
-- Warning : if there are feeback videos, children should be prompted to have headphones
 - Allowing for custom config for intervention
 - Points maximum should be implemented.
 - Make it usable for teachers to give a note (should be an option).
