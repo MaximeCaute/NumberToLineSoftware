@@ -182,7 +182,9 @@ class WholeAndFractionOperation extends Rational{
   }
 
   static ID = "WHOLE_AND_FRACTION_OPERATION";
-  static REGEXPR = /^(?:([0-9]+)\/([0-9]+)([\+-])([0-9]+))|(?:([0-9]+)([\+-])([0-9]+)\/([0-9]+))$/
+  // Match either "fraction(+|-)whole" or "whole(+|-)fraction" expressions.
+  static REGEXPR = /^(?:([0-9]+)\/([0-9]+)([\+-])([0-9]+)|([0-9]+)([\+-])([0-9]+)\/([0-9]+))$/
+
 
   static parse(source){
     let parsed = WholeAndFractionOperation.REGEXPR.exec(source)
