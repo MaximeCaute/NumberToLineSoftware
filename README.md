@@ -32,8 +32,13 @@ Index should pass an ID, file without extension (fetched in `config/number-to-li
 
 # TODO
 
+## Desired new features
+
 - Warning : if there are feeback videos, children should be prompted to have headphones
 - Allowing for custom config for intervention
 - Points maximum should be implemented.
 - Make it usable for teachers to give a note (should be an option).
 - Alt text should not be 'fraction' when no text is available
+
+## Known bugs
+- Decimal parsing can bug if there are trailing 0s in the decimal part : 0.02 will be parsed as Decimal(0, 2). This bug should be fixed by turning every parameter in Rational constructors into strings.
