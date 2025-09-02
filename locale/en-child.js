@@ -23,6 +23,7 @@ class ChildEnglishLocalizer extends Localizer {
       "TRAINING_START": `We will start with a bit of training. A sound will tell you if you answered correctly.`,
       "TRAINING_FINISHED": "You have now finished training.",
       "NO_CORRECTION": `The next numbers will not be corrected, even if your answer is wrong.`,
+      "HEADPHONES_PROMPT": "Some feedback videos include sound. Please put on your headphones.",
 
       "ACCURACY_DESCRIPTION": `You managed to place ${Localizer.FORMATTABLE_MARKER}% of numbers.`,
       "ENCOURAGEMENT_POOR": `Don't worry, you will do better next time!`,

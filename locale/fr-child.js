@@ -24,6 +24,7 @@ class ChildFrenchLocalizer extends Localizer {
       "TRAINING_START": `Entraînons-nous un peu. Un son te dira si tu as bien répondu.`,
       "TRAINING_FINISHED": "Tu as maintenant fini l'entraînement.",
       "NO_CORRECTION": `Les prochains nombres ne seront plus corrigés, même si tu fais des erreurs.`,
+      "HEADPHONES_PROMPT": "Certaines vidéos de feedback contiennent du son. Merci de mettre un casque.",
 
       // "ACCURACY_DESCRIPTION_NONE": `Tu n'as pas réussi à placer de nombre...`,
       // "ACCURACY_DESCRIPTION_SINGULAR": `Tu as réussi à placer ${Localizer.FORMATTABLE_MARKER} nombre sur ${Localizer.FORMATTABLE_MARKER}.`,
