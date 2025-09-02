@@ -1,0 +1,179 @@
+{
+  "experimentName": "NUMBER_LINE",
+
+  "trackMouse": false,
+  "recordAllTrials": false,
+
+  "startOption": "open-cardboard",
+
+  "trialMaxDuration": {
+    "training": -1,
+    "test": 20000
+  },
+
+  "snap": {
+    "vertical": true,
+    "horizontal": true
+  },
+
+  "feedback":{
+    "correction": {
+      "training": true,
+      "test": false
+    }
+  },
+
+  "adaptiveFeedback": {
+    "memorySpan": 0,
+    "threshold": 0
+  },
+
+  "varyGraduationsSize": true,
+
+  "blocks": [
+    {
+      "min": 0,
+      "max": 7,
+      "modality": "visual",
+
+      "trainingTrials": [
+        {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {}},
+        {"targetString": "4", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {}},
+        {"targetString": "8", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {}}
+      ],
+      "shuffleTraining": true,
+      "trainingTrialsRepetitions": 1,
+
+      "testTrials": [
+        {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "8", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+
+        {"targetString": "1/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": true}},
+        {"targetString": "1/2", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
+        {"targetString": "1/5", "mainInterval": 1, "graduationsPerUnit": 5, "flags": {"congruent": true}},
+
+        {"targetString": "3/3", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": true}},
+        {"targetString": "5/5", "mainInterval": 1, "graduationsPerUnit": 5, "flags": {"congruent": true}},
+
+        {"targetString": "2/3", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": true}},
+        {"targetString": "3/2", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
+        {"targetString": "5/4", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": true}},
+
+        {"targetString": "6/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": true}},
+        {"targetString": "8/4", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": true}},
+
+        {"targetString": "6/9", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": false}},
+        {"targetString": "3/6", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": true}},
+        {"targetString": "5/10", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": false}},
+
+        {"targetString": "2/5", "mainInterval": 1, "graduationsPerUnit": 5, "flags": {"congruent": true}}
+      ],
+      "shuffleTest": true,
+      "testTrialsRepetitions": 1
+    },
+    {
+      "min": 0,
+      "max": 7,
+      "modality": "visual",
+
+      "trainingTrials": [
+        {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {}},
+        {"targetString": "4", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {}},
+        {"targetString": "8", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {}}
+      ],
+      "shuffleTraining": true,
+      "trainingTrialsRepetitions": 1,
+
+      "testTrials": [
+        {"targetString": "1/3", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": true}},
+        {"targetString": "1/3", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": false}},
+        {"targetString": "1/6", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": true}},
+
+        {"targetString": "6/6", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": true}},
+
+        {"targetString": "2/3", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": false}},
+        {"targetString": "3/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": true}},
+        {"targetString": "4/5", "mainInterval": 1, "graduationsPerUnit": 5, "flags": {"congruent": true}},
+        {"targetString": "5/4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
+
+        {"targetString": "6/3", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": true}},
+
+        {"targetString": "6/9", "mainInterval": 1, "graduationsPerUnit": 9, "flags": {"congruent": true}},
+        {"targetString": "3/6", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": false}},
+        {"targetString": "4/10", "mainInterval": 1, "graduationsPerUnit": 5, "flags": {"congruent": false}},
+
+        {"targetString": "5/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": true}},
+        {"targetString": "7/5", "mainInterval": 1, "graduationsPerUnit": 5, "flags": {"congruent": true}}
+      ],
+      "shuffleTest": true,
+      "testTrialsRepetitions": 1
+    },
+    {
+      "min": 0,
+      "max": 7,
+      "modality": "visual",
+
+      "trainingTrials": [
+        {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "4", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "8", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}}
+      ],
+      "shuffleTraining": true,
+      "trainingTrialsRepetitions": 1,
+
+      "testTrials": [
+        {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "8", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+
+        {"targetString": "1/5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "1/10", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": true}},
+        {"targetString": "1/2", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "1/5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "3/3", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "5/5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "6/6", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "3/2", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "4/5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "6/2", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": true}},
+        {"targetString": "8/4", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": true}},
+        {"targetString": "6/3", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "4/10", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": true}},
+        {"targetString": "5/10", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": true}},
+        {"targetString": "2/5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "5/2", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "7/5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": false}},
+        {"targetString": "7/10", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {"congruent": true}}
+      ],
+      "shuffleTest": true,
+      "testTrialsRepetitions": 1
+    },
+    {
+      "min": 0,
+      "max": 7,
+      "modality": "visual",
+
+      "trainingTrials": [
+        {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "4", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "8", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}}
+      ],
+      "shuffleTraining": true,
+      "trainingTrialsRepetitions": 1,
+
+      "testTrials": [
+        {"targetString": "1/2+1/4", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {}},
+        {"targetString": "3/2+1/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": true}},
+        {"targetString": "2/6+6/6", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": false}},
+        {"targetString": "3/4+1/4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
+        {"targetString": "1/6+1/3", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {}},
+        {"targetString": "2/3+4/3", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": true}}
+      ],
+      "shuffleTest": true,
+      "testTrialsRepetitions": 1
+    }
+  ],
+
+  "shuffleBlocks": false
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+  <title>Number Line</title>
+  <meta charset="utf-8">
+  <link href="jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+
+  <script type="text/javascript" src="./locale/localizer.js"></script>
+  <script type="text/javascript" src="./locale/en-child.js"></script>
+  <script type="text/javascript"> const localizer = new ChildEnglishLocalizer(); </script>
+</head>
+<body>
+  <script type="text/javascript">
+
+    //const queryDict = {};
+    queryDict = {};
+    location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]})
+
+    // Start by getting an ID for the participant if needed.
+    const USE_RANDOM_ID = false
+
+    if (queryDict.id == undefined){
+      window.location.replace(`./common/src/identification.html?useRandomID=${USE_RANDOM_ID}`);
+    } else {
+      // TODO BEWARE OF "&" in queries
+      // TODO Dynamic file selection.
+      // TODO this parameter should not be passed to every task
+      let queriesToPass = `?id=${queryDict.id}&file=minimal_debug`;
+
+      let lastIDdigit = parseInt(queryDict.id.substr(-1))
+
+      // Name of the folder
+      let order =  ["number-to-line-task"]
+
+      let currentIndex = queryDict.lastTask != undefined ? order.indexOf(queryDict.lastTask) : -1;
+
+      if (currentIndex + 1 >= order.length){
+        document.body.innerHTML = localizer.getMessage("EXPERIENCE_END_MESSAGE", [], "p");
+      } else {
+        window.location.replace(`./${order[currentIndex + 1]}/experiment.html${queriesToPass}`);
+      }
+    }
+  </script>
+</body>

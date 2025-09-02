@@ -1,0 +1,71 @@
+"guiConfig": {
+  "backgroundColor": "white",
+
+  "position": {
+    "barTopFromViewportCenter": "35vh",
+    "cardboardPanelCenterFromViewportCenter": "-25vh"
+  },
+
+  "bar": {
+    "width": "70vw",
+    "height": "3px",
+    "color": "black"
+  },
+
+  "cardboard": {
+    "panelSize": "150px",
+    "handle": {
+      "width": "6px",
+      "length": "115px",
+      "endRadius": "20px",
+      "dotRadius": "4px"
+    },
+    "color": {
+      "regular": "wheat",
+      "frozen": "#EE9A4D"
+    },
+    "handleDotColor": "black"
+  },
+
+  "outOfLineResponsePanels": {
+    "width": "12vw",
+    "height": "3.5vw",
+    "arrowHeadWidth": "2vw",
+    "arrowBodyHeight": "2.5vw",
+    "color": "lightgray",
+    "horizontalOffsetFromLine": "0px"
+  },
+
+  "feedbackColors": {
+    "line": "lightgreen",
+    "cardboardCorrect": "green",
+    "cardboardIncorrect": "red"
+  },
+
+  "popupButton": {
+    "height": "20px",
+    "width": "20px"
+  },
+
+  "ticks": {
+    "major": {
+      "height": "2.4vw",
+      "width": "6px"
+    },
+    "intermediate": {
+      "height": "2vw",
+      "width": "5px"
+    },
+    "minor": {
+      "height": "1.2vw",
+      "width": "4px"
+    }
+  },
+
+  "responseMargin": "6px",
+
+  "label": {
+    "heightBetweenLabelAndTick": "1vh",
+    "fontSize": 40
+  }
+}

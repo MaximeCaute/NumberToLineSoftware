@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<head>
+  <title>Number Line</title>
+  <meta charset="utf-8">
+  <link href="../libraries/jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <!-- QueryDict.load returns the list of queries. -->
+  <script type="text/javascript" src="../common/src/query-dict.js"></script>
+
+  <script type="text/javascript"> const queryDict = QueryDict.readQueries() </script>
+
+  <!-- Constants have to be loaded before query dict and query dict has to be loaded before everything else.  -->
+  <script type="text/javascript" src="src/config/constants.js"></script>
+  <script type="text/javascript" src="src/config/setup-query-dict.js"></script>
+  <script type="text/javascript" src="src/config/start-options.js"></script>
+
+  <script type="text/javascript" src="../common/src/utils/navigation-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/audio-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/json-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/html-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/math-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/saving-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/js-utils.js"></script>
+
+  <script type="text/javascript" src="src/gui/cardboard.js"></script>
+  <script type="text/javascript" src="src/gui/tick.js"></script>
+  <script type="text/javascript" src="src/gui/renderer.js"></script>
+  <script type="text/javascript" src="src/gui/out-of-line-panel.js"></script>
+
+  <script type="text/javascript" src="src/math/number-line.js"></script>
+  <script type="text/javascript" src="src/math/rational.js"></script>
+  <script type="text/javascript" src="src/math/error-flags.js"></script>
+
+  <script type="text/javascript" src="src/instructions-template.js"></script>
+
+  <script type="text/javascript" src="../locale/localizer.js"></script>
+  <script type="text/javascript" src="../locale/en-child.js"></script>
+  <script type="text/javascript"> const localizer = new ChildEnglishLocalizer(); </script>
+
+  <!-- Load JsPsych and the desired plugins -->
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/jspsych.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-html-keyboard-response.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-image-keyboard-response.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/extension-mouse-tracking.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-instructions.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-fullscreen.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-text.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-preload.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-video-keyboard-response.js"></script>
+
+  <!-- Load the main task -->
+  <script type="text/javascript" src="src/experiment-core.js"></script>
+  <script type="text/javascript" src="src/plugin-number-to-line.js"></script>
+
+  <!-- Load the config -->
+  <!-- Note, this might not be very clean... -->
+  <script type="text/javascript" src="../config/number-to-line-task/gui-config.js"></script>
+
+  <!-- MAIN EXPERIMENT -->
+  <script type="module">
+    let subjectID = queryDict.id;
+
+
+    // NB : this is asynchronous and probably requires localhost.
+    let EXPERIMENT_CONFIG = await fetch(`../config/number-to-line-task/${queryDict.file}.json`).then(r => r.json());
+
+    // We initialize jsPsych
+    const jsPsych = initJsPsych({
+      show_progress_bar: true,
+      extensions: [{
+        type: jsPsychExtensionMouseTracking,
+      }],
+      // TODO this should be a common function
+      on_finish: function(data)
+      {
+        let currentFolderName = window.location.href.split("/").reverse()[1];
+        if (!queryDict.save)
+          SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_${queryDict.session}`);
+        window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+      }
+    });
+
+    jsPsych.data.addProperties({'screenX': screen.width});
+    jsPsych.data.addProperties({'screenY': screen.height});
+    jsPsych.data.addProperties({'innerX': window.innerWidth});
+    jsPsych.data.addProperties({'innerY': window.innerHeight});
+    jsPsych.data.addProperties({'ID': subjectID});
+    jsPsych.data.addProperties({'session': queryDict.session});
+
+    // We should also save the gui configuration
+    jsPsych.data.addProperties({guiConfig: GUI_CONFIG})
+
+    let timeline = [];
+
+    if (!queryDict.debug){
+      timeline.push({
+        type: jsPsychFullscreen,
+        message: localizer.getMessage("FULLSCREEN_PROMPT", [], "p"),
+        button_label: localizer.getMessage("FULLSCREEN_LABEL"),
+      });
+
+      let instructionsTrial = ExperimentCore.createInstructionsTrial(
+        Instructions.toHTMLPages(localizer),
+        localizer.getMessage("NEXT"),
+        localizer.getMessage("PREVIOUS"));
+
+      timeline.push(instructionsTrial);
+    }
+
+    document.body.style.backgroundColor = GUI_CONFIG.BACKGROUND_COLOR;
+    document.body.style.overflow = "hidden";
+
+    // timeline = timeline.concat(new ExperimentCore(localizer, TARGETS, BLOCKS, queryDict).generateTimeline());
+    timeline = timeline.concat(new ExperimentCore(jsPsych, EXPERIMENT_CONFIG, localizer, queryDict).generateTimeline());
+
+    console.log(`Starting ${timeline.length} trials.`)
+    jsPsych.run(timeline);
+  </script>
+</body>

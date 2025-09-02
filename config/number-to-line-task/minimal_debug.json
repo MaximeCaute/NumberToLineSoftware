@@ -1,0 +1,63 @@
+{
+  "experimentName": "NUMBER_LINE_DEBUG",
+
+  "trackMouse": false,
+  "recordAllTrials": false,
+
+  "startOption": "open-cardboard",
+
+  "trialMaxDuration": {
+    "training": -1,
+    "test": 20000
+  },
+
+  "snap": {
+    "vertical": true,
+    "horizontal": true
+  },
+
+  "feedback":{
+    "correction": {
+      "training": true,
+      "test": false
+    }
+  },
+
+  "adaptiveFeedback": {
+    "memorySpan": 0,
+    "threshold": 0
+  },
+
+  "varyGraduationsSize": true,
+
+  "blocks": [
+    {
+      "min": 0,
+      "max": 7,
+      "modality": "visual",
+
+      "trainingTrials": [
+              {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}}
+      ],
+      "shuffleTraining": true,
+      "trainingTrialsRepetitions": 1,
+
+      "testTrials": [
+        {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "5", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+        {"targetString": "8", "mainInterval": 1, "graduationsPerUnit": 10, "flags": {}},
+
+        {"targetString": "1/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": true}},
+        {"targetString": "1/2", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
+        {"targetString": "1/5", "mainInterval": 1, "graduationsPerUnit": 5, "flags": {"congruent": true}},
+        {"targetString": "1/2+1/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": true}}
+      ],
+      "shuffleTest": true,
+      "loopBelowSuccessThreshold": true,
+      "successThreshold": 0.8,
+      "testTrialsRepetitions": 1
+    }
+  ],
+
+  "shuffleBlocks": false
+}

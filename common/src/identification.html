@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+  <title>Identification step</title>
+  <meta charset="utf-8">
+  <link href="../../libraries/jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+  <script src="./query-dict.js" charset="utf-8"></script>
+
+  <script src="../../locale/localizer.js" charset="utf-8"></script>
+  <script src="../../locale/en-child.js" charset="utf-8"></script>
+
+  <script src="../../libraries/jsPsych-7.3.0/jspsych.js" charset="utf-8"></script>
+  <script src="../../libraries/jsPsych-7.3.0/plugins/plugin-survey-text.js" charset="utf-8"></script>
+  <script src="../../libraries/jsPsych-7.3.0/plugins/plugin-instructions.js" charset="utf-8"></script>
+</head>
+<body>
+  <script type="text/javascript">
+    function returnToIndex(){
+      window.location.replace(`../../index.html?id=${subjectID}`)
+    }
+
+    const queryDict = QueryDict.readQueries()
+    const localizer = new ChildEnglishLocalizer()
+
+    let subjectID;
+
+    const jsPsych = initJsPsych({
+      on_finish: function(data){
+        returnToIndex();
+      }
+    })
+
+    let timeline = [];
+
+    if (QueryDict.parseBoolean(queryDict.useRandomID)){
+      // Generate a random ID
+      subjectID = jsPsych.randomization.randomID(4);
+      timeline.push={
+        type:jsPsychInstructions,
+        pages: [`<p>${localizer.getMessage("RANDOM_ID_GENERATED", subjectID)}</p>`],
+        button_label_next: localizer.getMessage("NEXT")
+      };
+      // TODO, here we could have a small trial that indicates the ID.
+      returnToIndex();
+    } else {
+      // Add a trial asking for ID
+      timeline.push({
+        type: jsPsychSurveyText,
+        questions: [
+          {prompt: localizer.getMessage("ID_QUERY")}
+        ],
+        on_finish: function(data){
+          let trialsData = jsPsych.data.get().trials;
+          let lastTrial = trialsData[trialsData.length - 1]
+
+          // Define the subject ID...
+          subjectID = lastTrial.response.Q0;
+        }
+      });
+
+      jsPsych.run(timeline)
+    }
+
+  </script>
+</body>
