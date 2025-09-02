@@ -50,7 +50,7 @@ class NumberLine {
     //TODO use this.MAX?
     let closestTickDistance = BAR_MAX;
 
-    if (rawValue > this.max + EPSILON + valueMargin | rawValue < this.min - EPSILON - valueMargin)
+    if (rawValue > this.max + EPSILON + valueMargin || rawValue < this.min - EPSILON - valueMargin)
       throw new Error(`Invalid position value: ${rawValue}!`)
 
     for (let tick of this.ticks){
