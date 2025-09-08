@@ -1,9 +1,9 @@
 class MathUtils {
   static isInRect(coordinates, rect){
     return coordinates.x >= rect.left
-            & coordinates.x <= rect.right
-            & coordinates.y >= rect.top
-            & coordinates.y <= rect.bottom;
+            && coordinates.x <= rect.right
+            && coordinates.y >= rect.top
+            && coordinates.y <= rect.bottom;
   }
 
   static computeRectCenter(rect){
