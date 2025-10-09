@@ -2,6 +2,38 @@
 
 An open-source library for a software allowing experiments around number-to-line tasks
 
+## Logic.
+
+### Experiments and tasks
+
+A research experiment using the library has two level: experiment and task
+
+An **experiment** contains
+- an initialization (fetching experiment configuration, asking for ID, parameter choice)
+- a series of **tasks**
+- an end (data saving, thanking the participant...)
+
+A **task** contains
+- an initialization (fetching trial parameters, task gui configuration...)
+- a **timeline** (series of trials/timelines)
+- an end (data saving, redirection to the experiment)
+
+### Configuration
+
+- Experiment configuration
+  - Global GUI information
+  - Paths to the tasks and their order
+
+Tasks should be defined in their own folder. But where do their configuration go?
+
+#### The Number Line task
+
+Core task of the library.
+
+- GUI configuration file
+- Main trials configuration file (defines the trial on the number line)
+- Secondary trials configuration file (defines, e.g., data about texts) => Currently hardcoded.
+
 ## Structure overview
 
 The logic is that any new experiment should only require changing `index.html` and `config/...-task/`
