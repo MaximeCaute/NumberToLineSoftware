@@ -419,9 +419,9 @@ var numberToLine = (function (jspsych) {
 
               document.body.onmousemove = Cardboard.createCarboardMovementFunction(
                 cardboardElement,
-                document.getElementById(Renderer.RESPONSE_PANEL_ID).getBoundingClientRect(),
-                document.getElementById(Renderer.PANEL_ID).getBoundingClientRect().bottom,
-                cardboard.handleLength);
+              Renderer.getResponsePanelBoundingRect(),
+              Renderer.getPanelBoundingRect().bottom,
+              cardboard.handleLength);
             }
           }
 
@@ -495,7 +495,7 @@ var numberToLine = (function (jspsych) {
           outOfLineResponsePanelDiv.style.top = `calc(50%
             + (${GUI_CONFIG.BAR_TOP_FROM_VIEWPORT_CENTER})
             + (
-              ${document.getElementById(Renderer.PANEL_ID).getBoundingClientRect().height}px
+              ${Renderer.getPanelBoundingRect().height}px
               - ${GUI_CONFIG.OUT_OF_LINE_RESPONSE_PANELS_HEIGHT}
             ) / 2)`;
 
@@ -511,7 +511,7 @@ var numberToLine = (function (jspsych) {
 
           outOfLineResponsePanelDiv.computeRawAndRoundedAnswers =
             function(clickCoordinates, margin){
-              let lineDisplayPanelBoundingRect = document.getElementById(Renderer.PANEL_ID).getBoundingClientRect();
+              let lineDisplayPanelBoundingRect = Renderer.getPanelBoundingRect();
               let relativeX = clickCoordinates.x - lineDisplayPanelBoundingRect.left;
 
               let rawResponse = trial.rangeMinimum +
@@ -647,7 +647,7 @@ var numberToLine = (function (jspsych) {
           let targetPosition = NumberToLinePlugin.UI.convertValueToXPosition(correctAnswer, trial.info.numberLines[0])
 
           // TODO this can probably be done with target position as the y coord
-          let linePanelDivBoundingRect = document.getElementById(Renderer.PANEL_ID).getBoundingClientRect();
+          let linePanelDivBoundingRect = Renderer.getPanelBoundingRect();
 
           cardboard.style.transformOrigin = "bottom left"
           // TODO CLEAN THAT WITH ANIMAITON BELOW
@@ -774,7 +774,7 @@ var numberToLine = (function (jspsych) {
       }
 
       static convertValueToXPosition(value, line){
-        let linePanelDivBoundingRect = document.getElementById(Renderer.PANEL_ID).getBoundingClientRect();
+        let linePanelDivBoundingRect = Renderer.getPanelBoundingRect();
 
         switch (value){
           case SMALLER_PANEL_ID:
@@ -831,8 +831,7 @@ var numberToLine = (function (jspsych) {
         trial.startClickX = startClickBoundingRect.left + startClickBoundingRect.width / 2;
         trial.startClickY = startClickBoundingRect.top + startClickBoundingRect.height / 2;
 
-        // TODO we frequently use `document.getElementById(Renderer.PANEL_ID).getBoundingClientRect()` which could be a method of its own
-        let lineBoundingRect = document.getElementById(Renderer.PANEL_ID).getBoundingClientRect();
+        let lineBoundingRect = Renderer.getPanelBoundingRect();
 
         trial.lineLeftBoundaryX = lineBoundingRect.left;
         trial.lineRightBoundaryX = lineBoundingRect.right;
