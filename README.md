@@ -29,3 +29,10 @@ The logic is that any new experiment should only require changing `index.html` a
 ## Creating a new experiment.
 
 Index should pass an ID, file without extension (fetched in `config/number-to-line-task/`, can include a subpath) & session parameter & save parameter (todo, format into proper boolean)
+
+# TODO
+
+- Allowing for custom config for intervention
+- Points maximum should be implemented.
+- Make it usable for teachers to give a note (should be an option).
+- Alt text should not be 'fraction' when no text is available
