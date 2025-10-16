@@ -7,6 +7,22 @@ class Renderer {
   static PANEL_ID = "line-display-panel";
   static RESPONSE_PANEL_ID = "response-panel";
 
+  static getPanelElement(){
+    return document.getElementById(Renderer.PANEL_ID);
+  }
+
+  static getPanelBoundingRect(){
+    return Renderer.getPanelElement().getBoundingClientRect();
+  }
+
+  static getResponsePanelElement(){
+    return document.getElementById(Renderer.RESPONSE_PANEL_ID);
+  }
+
+  static getResponsePanelBoundingRect(){
+    return Renderer.getResponsePanelElement().getBoundingClientRect();
+  }
+
   static assertParameterIsDefined(parameter, parameterName){
     if (parameter == undefined)
       throw new Error(`${parameterName} wasn't defined in the process!`);

@@ -106,6 +106,13 @@
         localizer.getMessage("PREVIOUS"));
 
       timeline.push(instructionsTrial);
+
+      if (EXPERIMENT_CONFIG.adaptiveFeedback && EXPERIMENT_CONFIG.adaptiveFeedback.threshold > 0){
+        const headphoneTrial = ExperimentCore.createInstructionsTrial(
+          localizer.getMessage("HEADPHONES_PROMPT", [], "p"),
+          localizer.getMessage("NEXT"));
+        timeline.push(headphoneTrial);
+      }
     }
 
     document.body.style.backgroundColor = GUI_CONFIG.BACKGROUND_COLOR;
