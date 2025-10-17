@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Fraction Survey Example</title>
+
+    <!-- Load jsPsych -->
+    <script type="text/javascript" src="../libraries/jsPsych-7.3.0/jspsych.js"></script>
+    <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-html-form.js"></script>
+    <link href="../libraries/jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript" src="./survey-fraction.js"></script>
+  </head>
+  <body></body>
+
+  <script>
+    function createSurveyOptions(options) {
+      let optionsDivs = options.map(o =>  `
+        <div class="option-container">
+          <label class="fraction-label">
+            ${o.html}
+            <input type="radio" name="fraction" value="${o.value}" required>
+          </label>
+        </div>
+      `)
+
+      return `
+        <div class="options-container">
+          ${optionsDivs.join("\n")}
+        </div>
+      `
+    }
+
+    // ---------- jsPsych setup ----------
+
+    const jsPsych = initJsPsych({
+      on_finish: () => jsPsych.data.displayData(),
+    });
+
+    const fractionList = [
+      [1, 2],
+      [2, 3],
+      [3, 4],
+      [5, 6],
+    ].map(([n,d]) => {return {html: createFractionHTML(n, d), value: `${n}/${d}`}});
+
+    const fractionQuestion = {
+      type: jsPsychSurveyHtmlForm,
+      preamble: "<h3>Select the fraction you prefer:</h3>",
+      html: createSurveyOptions(fractionList),
+      button_label: "Submit",
+    };
+
+
+    // --------- Fraction input HTML ----------
+     const fractionInputHTML = `
+      <div class="options-container">
+        <div class="fraction-input">
+          <input type="number" id="num" name="numerator" placeholder=" " required>
+          <div class="fraction-line"></div>
+          <input type="number" id="den" name="denominator" placeholder=" " required>
+        </div>
+        <div id="error" class="error-msg">Please enter valid numbers for numerator and denominator.</div>
+      </div>
+    `;
+
+     // --------- Trial definition ----------
+     const inputTrial = {
+       type: jsPsychSurveyHtmlForm,
+       preamble: "<h3>Enter your own fraction:</h3>",
+       html: fractionInputHTML,
+       button_label: "Submit",
+       on_load: () => {
+         document.getElementById("jspsych-survey-html-form")
+       }
+     };
+
+    jsPsych.run([inputTrial]);
+    // jsPsych.run([fractionQuestion]);
+  </script>
+</html>
