@@ -41,6 +41,10 @@ var numberToLine = (function (jspsych) {
         default: [],
         array: true
       },
+      targetSequence: {
+        type: jspsych.ParameterType.COMPLEX,
+        default: null,
+      },
       minorGraduationInterval: {
         type: jspsych.ParameterType.FLOAT,
         default: 0.1,
@@ -308,6 +312,102 @@ var numberToLine = (function (jspsych) {
       }
     }
 
+    static Progress = class {
+      static initializeTargets(trial){
+        let sequence = Array.isArray(trial.targetSequence) && trial.targetSequence.length > 0 ?
+          trial.targetSequence :
+          [{
+            numberType: trial.numberType,
+            components: trial.numberComponents,
+          }];
+
+        trial.targetSequence = sequence.map(spec => {
+          let numberType = spec.numberType ?? spec.type ?? trial.numberType;
+          let components = Array.isArray(spec.components) ? [...spec.components] : [];
+
+          if (components.length == 0)
+            throw new Error("Target sequence entry must define components.");
+
+          return {...spec, numberType: numberType, components: components};
+        });
+
+        trial.targets = trial.targetSequence.map(spec =>
+          NumberToLinePlugin.Maths.createTarget(spec.numberType, spec.components));
+
+        trial.targetSequence = trial.targetSequence.map((spec, index) => ({
+          ...spec,
+          value: trial.targets[index].value,
+        }));
+        trial.targetValues = trial.targets.map(target => target.value);
+        trial.multipleTargets = trial.targets.length > 1;
+
+        this.setCurrentTarget(trial, 0);
+
+        trial.responses = [];
+        trial.rawResponses = [];
+        trial.roundedResponses = [];
+        trial.correctAnswers = [];
+        trial.correctResponses = [];
+        trial.rtFromStartList = [];
+        trial.rtList = [];
+        trial.cardboardClickTimesFromStartList = [];
+      }
+
+      static setCurrentTarget(trial, index){
+        trial.currentTargetIndex = index;
+        let targetSpec = trial.targetSequence[index];
+        let target = trial.targets[index];
+
+        trial.currentTarget = target;
+        trial.targetValue = target.value;
+
+        trial.numberType = targetSpec.numberType;
+        trial.numberComponents = [...targetSpec.components];
+        trial.numberFirstPart = trial.numberComponents[0];
+        trial.numberSecondPart = trial.numberComponents.length >= 2 ? trial.numberComponents[1] : -1;
+      }
+
+      static getCurrentTarget(trial){
+        return trial.currentTarget;
+      }
+
+      static hasMoreTargets(trial){
+        return trial.currentTargetIndex < trial.targets.length - 1;
+      }
+
+      static advanceToNextTarget(trial){
+        this.setCurrentTarget(trial, trial.currentTargetIndex + 1);
+      }
+
+      static resetCardboardForNextTarget(trial){
+        trial.displayedStimulus = false;
+        trial.cardboardClickTimeFromStart = undefined;
+        document.body.onmousemove = null;
+        document.body.style.cursor = "auto";
+
+        let cardboard = document.getElementById(Cardboard.FULL_DIV_ID);
+        if (cardboard != null){
+          HTML_UTILS.ReplaceBackgroundColour(cardboard,
+            GUI_CONFIG.CARDBOARD_CORRECT_FEEDBACK_COLOUR,
+            GUI_CONFIG.CARDBOARD_BACKGROUND_COLOR);
+          HTML_UTILS.ReplaceBackgroundColour(cardboard,
+            GUI_CONFIG.CARDBOARD_INCORRECT_FEEDBACK_COLOUR,
+            GUI_CONFIG.CARDBOARD_BACKGROUND_COLOR);
+          HTML_UTILS.ReplaceBackgroundColour(cardboard,
+            GUI_CONFIG.CARDBOARD_FROZEN_BACKGROUND_COLOR,
+            GUI_CONFIG.CARDBOARD_BACKGROUND_COLOR);
+        }
+
+        let panel = document.getElementById(Cardboard.PANEL_ID);
+        if (panel != null)
+          panel.innerHTML = "";
+
+        let handleEnd = document.getElementById(Cardboard.HANDLE_END_ID);
+        if (handleEnd != null)
+          handleEnd.style.cursor = "pointer";
+      }
+    }
+
     static UI = class {
       static createRenderer(type, barColor, unitBackgroundColors){
         switch (type){
@@ -318,29 +418,33 @@ var numberToLine = (function (jspsych) {
         }
       }
 
-      static computeStimulusDisplayFunction(target, trial){
-        let pathName;
-        switch(trial.modality){
-          case ExperimentCore.VISUAL_MODALITY:
-            pathName = target.toImageNameWithDimensions(
-              trial.imageFileDimension, trial.imageFileDimension, FRACTION_IMAGE_PATH);
-            return function(panel){
-              // This is necessary to handle the rest
-              trial.displayedStimulus = true;
-              panel.innerHTML = `<img src="${pathName}" alt="fraction">`;
-            };
-          case ExperimentCore.VERBAL_MODALITY:
-          // TODO FACTORIZE
-            let audioSpecification = trial.audioVoice == undefined ? "" : `_${trial.audioVoice}`;
+      static computeStimulusDisplayFunction(targetProvider, trial){
+        return function(panel){
+          let target = targetProvider();
+          if (target == undefined)
+            return;
 
-            pathName = FRACTION_AUDIO_PATH + `${target.toImageName()}_FR${audioSpecification}.wav`;
-            return function(panel){
+          switch(trial.modality){
+            case ExperimentCore.VISUAL_MODALITY:
+              panel.innerHTML = `<img src="${target.toImageNameWithDimensions(
+                trial.imageFileDimension,
+                trial.imageFileDimension,
+                FRACTION_IMAGE_PATH)}" alt="fraction">`;
               trial.displayedStimulus = true;
-              audioUtils.playFile(pathName);
-            };
-          default:
-            throw new Error(`Illegal modality: ${trial.modality}!`);
-        }
+              break;
+            case ExperimentCore.VERBAL_MODALITY:
+              // TODO FACTORIZE
+              {
+                let audioSpecification = trial.audioVoice == undefined ? "" : `_${trial.audioVoice}`;
+                let pathName = FRACTION_AUDIO_PATH + `${target.toImageName()}_FR${audioSpecification}.wav`;
+                trial.displayedStimulus = true;
+                audioUtils.playFile(pathName);
+              }
+              break;
+            default:
+              throw new Error(`Illegal modality: ${trial.modality}!`);
+          }
+        };
       }
 
       static Listeners = class {
@@ -797,18 +901,57 @@ var numberToLine = (function (jspsych) {
         NumberToLinePlugin.Checks.assertArgumentDefined(trial.cardboardClickTimeFromStart, "trial.cardboardClickTimeFromStart");
         NumberToLinePlugin.Checks.assertArgumentDefined(trial.targetValue, "trial.targetValue");
 
-        trial.rtFromStart = answerTime - trial.startTime;
-        trial.answered = true;
-        trial.rt = trial.rtFromStart - trial.cardboardClickTimeFromStart;
+        let rtFromStart = answerTime - trial.startTime;
+        let rt = trial.cardboardClickTimeFromStart == undefined ? null :
+          rtFromStart - trial.cardboardClickTimeFromStart;
+
+        let correctAnswer = NumberToLinePlugin.Maths.computeCorrectAnswer(trial);
+        let isCorrect = NumberToLinePlugin.Maths.isCorrect(
+          answer.rounded,
+          correctAnswer,
+          EPSILON);
+
+        let responseRecord = {
+          targetIndex: trial.currentTargetIndex ?? 0,
+          targetValue: trial.targetValue,
+          raw: answer.raw,
+          rounded: answer.rounded,
+          correctAnswer: correctAnswer,
+          correct: isCorrect,
+          rtFromStart: rtFromStart,
+          rt: rt,
+          cardboardClickTimeFromStart: trial.cardboardClickTimeFromStart,
+        };
+
+        if (!Array.isArray(trial.responses))
+          trial.responses = [];
+        trial.responses.push(responseRecord);
+
+        trial.rawResponses = trial.responses.map(r => r.raw);
+        trial.roundedResponses = trial.responses.map(r => r.rounded);
+        trial.correctAnswers = trial.responses.map(r => r.correctAnswer);
+        trial.correctResponses = trial.responses.map(r => r.correct);
+        trial.rtFromStartList = trial.responses.map(r => r.rtFromStart);
+        trial.rtList = trial.responses.map(r => r.rt);
+
+        if (!Array.isArray(trial.cardboardClickTimesFromStartList))
+          trial.cardboardClickTimesFromStartList = [];
+        trial.cardboardClickTimesFromStartList.push(trial.cardboardClickTimeFromStart ?? null);
+
+        trial.rtFromStart = rtFromStart;
+        trial.rt = rt;
         trial.rawResponse = answer.raw;
         trial.roundedResponse = answer.rounded;
-        trial.correctAnswerOnCurrentLine = NumberToLinePlugin.Maths.computeCorrectAnswer(trial);
+        trial.correctAnswerOnCurrentLine = correctAnswer;
+        trial.lastResponseRecord = responseRecord;
 
-        // TODO
-        let currentLineIndex = 0;
+        let totalTargets = Array.isArray(trial.targets) && trial.targets.length > 0 ?
+          trial.targets.length : 1;
+        trial.correct = trial.responses.length == 0 ? false :
+          trial.responses.every(r => r.correct);
+        trial.answered = trial.responses.length >= totalTargets;
 
-        // TODO FIX THE USE OF EPSILON HERE
-        trial.correct = NumberToLinePlugin.Maths.isCorrect(answer.rounded, trial.correctAnswerOnCurrentLine, EPSILON);
+        return responseRecord;
       }
 
       // TODO investigate why this is called twice
@@ -897,8 +1040,22 @@ var numberToLine = (function (jspsych) {
         NumberToLinePlugin.UI.handleSnap(trial, actualAnswer.rounded);
         await NumberToLinePlugin.UI.Feedback.handleFeedback(actualAnswer.rounded, trial);
 
-        // TODO investigate the copyTrial
-        NumberToLinePlugin.Closing.finishTrial(jsPsych, trial, jsonUtils.copyTrial(trial), trial.afterTrialDelay)
+        if (trial.answered || !NumberToLinePlugin.Progress.hasMoreTargets(trial)){
+          // TODO investigate the copyTrial
+          NumberToLinePlugin.Closing.finishTrial(jsPsych, trial, jsonUtils.copyTrial(trial), trial.afterTrialDelay)
+        } else {
+          NumberToLinePlugin.Progress.advanceToNextTarget(trial);
+          NumberToLinePlugin.Progress.resetCardboardForNextTarget(trial);
+
+          // Update the correct answer cache for the new target
+          trial.correctAnswerOnCurrentLine = NumberToLinePlugin.Maths.computeCorrectAnswer(trial);
+
+          if (trial.startOption == StartOptions.OPEN_CARDBOARD){
+            let panel = document.getElementById(Cardboard.PANEL_ID);
+            if (panel != null && typeof trial.displayStimulusFunction == "function")
+              trial.displayStimulusFunction(panel);
+          }
+        }
 
         return true;
       }
@@ -920,11 +1077,11 @@ var numberToLine = (function (jspsych) {
       // We add another layer that will contain event listeners and be refreshed every trial
       let trialContextDiv = NumberToLinePlugin.UI.HTML.createContextDiv(displayElement)
 
-      let target = NumberToLinePlugin.Maths.createTarget(trial.numberType, trial.numberComponents);
-      // TODO check whether this should go into trial.info.targetValue
-      trial.targetValue = target.value
+      NumberToLinePlugin.Progress.initializeTargets(trial);
+      let target = NumberToLinePlugin.Progress.getCurrentTarget(trial);
 
       trial.info.numberLines = NumberToLinePlugin.Maths.generateNumberLinesData(trial);
+      trial.correctAnswerOnCurrentLine = NumberToLinePlugin.Maths.computeCorrectAnswer(trial);
       // TODO I dislike the target being used here...
       let lineElements = NumberToLinePlugin.UI.HTML.createLineElementsForDocument(trial, target, displayElement);
 
@@ -937,7 +1094,10 @@ var numberToLine = (function (jspsych) {
       trialContextDiv.insertBefore(NumberToLinePlugin.UI.HTML.createOutOfLineResponsePanel(trial, true, target, trialContextDiv), lineElements[0]);
       trialContextDiv.insertBefore(NumberToLinePlugin.UI.HTML.createOutOfLineResponsePanel(trial, false, target, trialContextDiv), lineElements[0]);
 
-      let displayStimulus = NumberToLinePlugin.UI.computeStimulusDisplayFunction(target, trial);
+      let displayStimulus = NumberToLinePlugin.UI.computeStimulusDisplayFunction(
+        () => NumberToLinePlugin.Progress.getCurrentTarget(trial),
+        trial);
+      trial.displayStimulusFunction = displayStimulus;
 
       // Only add a line choice element if needed
       if (trial.minorGraduationInterval.length > 1){
