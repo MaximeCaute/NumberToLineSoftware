@@ -457,26 +457,32 @@ var numberToLine = (function (jspsych) {
         static createMouseClickedListener(trial, jsPsych){
           // Although `addEventListener` does not seem to care, we make the function async for convenience.
           return async function(e){
-            if(!trial.displayedStimulus || trial.answered)
+            if(!trial.displayedStimulus || trial.answered || trial.isProcessingResponse)
               return;
 
-            // Save position asap to avoid movement issues
-            let currentAnswerCoordinates = Cardboard.getCurrentCoordinates();
+            trial.isProcessingResponse = true;
 
-            // Loop in order of increasing priority
-            for (let priority in trial.info.responseElements){
-              for(let element of trial.info.responseElements[priority]){
-                // Ignore invisible elements
-                if(element.style.visibility == "hidden")
-                  continue
+            try {
+              // Save position asap to avoid movement issues
+              let currentAnswerCoordinates = Cardboard.getCurrentCoordinates();
 
-                // Stop if one element did react
-                if(NumberToLinePlugin.UI.Listeners.wasClicked(element, currentAnswerCoordinates)){
-                  await NumberToLinePlugin.Closing.handleResponseAndClose(
-                    element, currentAnswerCoordinates, trial, jsPsych)
-                  return;
+              // Loop in order of increasing priority
+              for (let priority in trial.info.responseElements){
+                for(let element of trial.info.responseElements[priority]){
+                  // Ignore invisible elements
+                  if(element.style.visibility == "hidden")
+                    continue
+
+                  // Stop if one element did react
+                  if(NumberToLinePlugin.UI.Listeners.wasClicked(element, currentAnswerCoordinates)){
+                    await NumberToLinePlugin.Closing.handleResponseAndClose(
+                      element, currentAnswerCoordinates, trial, jsPsych)
+                    return;
+                  }
                 }
               }
+            } finally {
+              trial.isProcessingResponse = false;
             }
           }
         }
