@@ -515,7 +515,7 @@ var numberToLine = (function (jspsych) {
               let relativeX = clickCoordinates.x - lineDisplayPanelBoundingRect.left;
 
               let rawResponse = trial.rangeMinimum +
-                (trial.rangeMaximum - trial.rangeMaximum) * relativeX / lineDisplayPanelBoundingRect.width;
+                (trial.rangeMaximum - trial.rangeMinimum) * relativeX / lineDisplayPanelBoundingRect.width;
 
               return {raw: rawResponse,
                 rounded:outOfLineResponsePanelDiv.id};}
