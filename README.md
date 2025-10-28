@@ -58,6 +58,14 @@ The logic is that any new experiment should only require changing `index.html` a
   - `src/gui/`. Contains all the elements displayed on screen during the task. The "line" is displayed by the ill-named `renderer.js` file. Also, `tick.js` is just a data structure whose presence here is debattable
   - `src/math/`. Contains all the math related logic: definition of rational numbers, of error types with rationals, and of what a number line is (mathematically).
 
+## Starting an experiment
+
+If you are planning to test the script directly on your machine, please note that you will first have to setup a local server (one possible way: open a terminal in the project folder and enter `python -m http.server`). This is due to browsers preventing access to other files when executing a file that is saved locally and requiring a sandbox instead. 
+
+To launch the experiment, access the file `index.html`, which should be at the root of the project. If you opened the server locally with python, you should simply have to type in `localhost:8000` (or equivalently `localhost:8000/index.html`) in your browser's URL bar. 
+
+Note that there may be other `XXX_index.html` files lying in the project, which were created to have alternate experimental configurations. We are currently working in merging these configurations as configuration files.
+
 ## Creating a new experiment.
 
 Index should pass an ID, file without extension (fetched in `config/number-to-line-task/`, can include a subpath) & session parameter & save parameter (todo, format into proper boolean)
