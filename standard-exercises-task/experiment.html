@@ -33,47 +33,6 @@
 
     let exerciseGenerator = new ExerciseGenerator(jsPsych);
 
-    const fractionList = [
-      [1, 2],
-      [2, 3],
-      [3, 4],
-      [5, 6],
-    ].map(([n,d]) => {return {html: createFractionHTML(n, d), value: `${n}/${d}`}});
-
-    const fractionQuestion = {
-      type: jsPsychSurveyHtmlForm,
-      preamble: "<h3>Select the fraction you prefer:</h3>",
-      html: ExerciseGenerator.createSurveyOptions(fractionList),
-      button_label: "Submit",
-    };
-
-
-    // --------- Fraction input HTML ----------
-     const fractionInputHTML = `
-      <div class="options-container" style="display:flex">
-        <div style="display:flex; align-items: center;"><p style="text-align: center">
-          1/2 + 1/2 =
-        </p></div>
-        <div class="fraction-input">
-          <input type="number" id="num" name="numerator" placeholder=" " required>
-          <div class="fraction-line"></div>
-          <input type="number" id="den" name="denominator" placeholder=" " required>
-        </div>
-        <div id="error" class="error-msg">Please enter valid numbers for numerator and denominator.</div>
-      </div>
-    `;
-
-     // --------- Trial definition ----------
-     const inputTrial = {
-       type: jsPsychSurveyHtmlForm,
-       preamble: "<h3>Enter your own fraction:</h3>",
-       html: fractionInputHTML,
-       button_label: "Submit",
-       on_load: () => {
-         document.getElementById("jspsych-survey-html-form")
-       }
-     };
-
     let timeline = []
     // TODO should probably move to ExerciseGenerator class
     for (let exerciseConfig of EXPERIMENT_CONFIG.exercises){
@@ -116,8 +75,5 @@
 
 
     jsPsych.run(timeline)
-    // jsPsych.run([surveyTrial]);
-    // jsPsych.run([inputTrial]);
-    // jsPsych.run([fractionQuestion]);
   </script>
 </html>
