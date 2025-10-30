@@ -136,7 +136,8 @@ class ExerciseGenerator {
           },
         }
       ],
-      timeline_variables: items
+      timeline_variables: items,
+      randomize_order: randomize
     }
 
     return exerciseProcedure;
@@ -179,7 +180,8 @@ class ExerciseGenerator {
             button_label: "Submit",
         }
       ],
-      timeline_variables: items
+      timeline_variables: items,
+      randomize_order: randomize
     };
 
     return exerciseProcedure;
@@ -233,7 +235,8 @@ class ExerciseGenerator {
             button_label: "Suivant",
         }
       ],
-      timeline_variables: items
+      timeline_variables: items,
+      randomize_order: randomize
     };
 
     return exerciseProcedure;

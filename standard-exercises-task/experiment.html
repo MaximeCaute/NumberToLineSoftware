@@ -80,15 +80,15 @@
       let exerciseProcedure = null;
       switch (exerciseConfig.name) {
         case "integer_arithmetic":
-          exerciseProcedure = exerciseGenerator.generateIntegerArithmeticExerciseProcedure(exerciseConfig.items, true)
+          exerciseProcedure = exerciseGenerator.generateIntegerArithmeticExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
           break;
         case "fraction_addition":
           switch(exerciseConfig.choice){
             case "free":
-              exerciseProcedure = exerciseGenerator.generateFreeChoiceFractionAdditionExerciseProcedure(exerciseConfig.items, true)
+              exerciseProcedure = exerciseGenerator.generateFreeChoiceFractionAdditionExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
               break;
             case "forced":
-              exerciseProcedure = exerciseGenerator.generateForcedChoiceFractionAdditionExerciseProcedure(exerciseConfig.items, true)
+              exerciseProcedure = exerciseGenerator.generateForcedChoiceFractionAdditionExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
               break;
             default:
               console.error(`Invalid choice type: ${exerciseConfig.choice}. Skipping...`);
@@ -96,14 +96,14 @@
           }
           break;
         case "fraction_comparison":
-          exerciseProcedure = exerciseGenerator.generateFractionComparisonExerciseProcedure(exerciseConfig.items, true)
+          exerciseProcedure = exerciseGenerator.generateFractionComparisonExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
           break;
         case "fraction_bracketting":
-          exerciseProcedure = exerciseGenerator.generateFractionBrackettingExerciseProcedure(exerciseConfig.items, true)
+          exerciseProcedure = exerciseGenerator.generateFractionBrackettingExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
           break;
         // Requires network connection
         case "fraction_selection":
-          exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, true)
+          exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
           break;
         default:
           console.error(`Invalid exercise name: ${exerciseConfig.name}. Skipping...`)

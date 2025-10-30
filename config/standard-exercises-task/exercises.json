@@ -2,6 +2,7 @@
   "exercises": [
     {
       "name": "integer_arithmetic",
+      "randomize": "false",
       "items": [
         {"operand1": "1", "operator": "+", "operand2": "4"},
         {"operand1": "3", "operator": "+", "operand2": "3"},
@@ -16,14 +17,20 @@
     },
     {
       "name": "fraction_comparison",
+      "randomize": "true",
       "items": [
         {"target1": "2/9", "target2": "2/3", "format": "digits", "framing": "numerical"},
         {"target1": "3/4", "target2": "5/4", "format": "digits", "framing": "numerical"},
         {"target1": "1/2", "target2": "1/3", "format": "digits", "framing": "numerical"},
         {"target1": "8/3", "target2": "3/8", "format": "digits", "framing": "numerical"},
         {"target1": "1/2", "target2": "2/4", "format": "digits", "framing": "numerical"},
-        {"target1": "2/5", "target2": "4/10", "format": "digits", "framing": "numerical"},
-
+        {"target1": "2/5", "target2": "4/10", "format": "digits", "framing": "numerical"}
+      ]
+    },
+    {
+      "name": "fraction_comparison",
+      "randomize": "true",
+      "items": [
         {"target1": "1/4", "target2": "1/3", "format": "letters", "framing": "spatial"},
         {"target1": "6/10", "target2": "6/5", "format": "letters", "framing": "spatial"},
         {"target1": "5/8", "target2": "3/8", "format": "letters", "framing": "spatial"},
@@ -34,26 +41,29 @@
     },
     {
       "name": "fraction_addition",
+      "randomize": "true",
       "choice": "forced",
       "items": [
         {"operand1": "1/2", "operand2": "1/2", "format": "digits", "choices": ["2/2", "2/4", "1/3"]},
         {"operand1": "3/5", "operand2": "3/5", "format": "digits", "choices": ["7/5", "7/10", "3/9"]},
         {"operand1": "4/3", "operand2": "1/3", "format": "digits", "choices": ["5/3", "5/6", "4/4"]},
-        {"operand1": "1/5", "operand2": "1/10", "format": "digits", "choices": ["4/10", "2/15", "1/6"]},
-
-        {"operand1": "1/4", "operand2": "1/4", "format": "letters", "choices": ["1/2", "2/8", "1/5"]},
-        {"operand1": "2/5", "operand2": "4/5", "format": "letters", "choices": ["6/5", "6/10", "2/9"]},
-        {"operand1": "2/2", "operand2": "1/2", "format": "letters", "choices": ["3/2", "3/4",  "2/3"]},
-        {"operand1": "1/3", "operand2": "1/6", "format": "letters", "choices": ["1/2", "2/9", "1/4"]},
-
-        {"operand1": "1/3", "operand2": "1/3", "format": "digits", "choice": "free", "choices": []},
-        {"operand1": "3/2", "operand2": "2/2", "format": "digits", "choice": "free", "choices": []},
-        {"operand1": "1/5", "operand2": "2/5", "format": "digits", "choice": "free", "choices": []},
-        {"operand1": "1/2", "operand2": "1/4", "format": "digits", "choice": "free", "choices": []}
+        {"operand1": "1/5", "operand2": "1/10", "format": "digits", "choices": ["4/10", "2/15", "1/6"]}
       ]
     },
     {
       "name": "fraction_addition",
+      "randomize": "true",
+      "choice": "forced",
+      "items": [
+        {"operand1": "1/4", "operand2": "1/4", "format": "letters", "choices": ["1/2", "2/8", "1/5"]},
+        {"operand1": "2/5", "operand2": "4/5", "format": "letters", "choices": ["6/5", "6/10", "2/9"]},
+        {"operand1": "2/2", "operand2": "1/2", "format": "letters", "choices": ["3/2", "3/4",  "2/3"]},
+        {"operand1": "1/3", "operand2": "1/6", "format": "letters", "choices": ["1/2", "2/9", "1/4"]}
+      ]
+    },
+    {
+      "name": "fraction_addition",
+      "randomize": "true",
       "choice": "free",
       "items": [
         {"operand1": "1/3", "operand2": "1/3", "format": "digits"},
@@ -64,6 +74,7 @@
     },
     {
       "name": "fraction_bracketting",
+      "randomize": "true",
       "items": [
         {"target": "1/2", "format": "digits", "framing": "spatial", "choices": [["0","1"], ["1","2"], ["2","3"]]},
         {"target": "2/3", "format": "digits", "framing": "spatial", "choices": [["0","1"], ["1","2"], ["2","3"]]},
@@ -75,6 +86,7 @@
     },
     {
       "name": "fraction_selection",
+      "randomize": "true",
       "items": [
         {"target": "1/2", "format": "digits", "choices": [
           {"target": "2/4", "model": "square", "filename": "two_fourths_square"},
