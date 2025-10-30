@@ -17,19 +17,19 @@
     {
       "name": "fraction_comparison",
       "items": [
-        {"target1": "2/9", "target2": "2/3", "format": "digits"},
-        {"target1": "3/4", "target2": "5/4", "format": "digits"},
-        {"target1": "1/2", "target2": "1/3", "format": "digits"},
-        {"target1": "8/3", "target2": "3/8", "format": "digits"},
-        {"target1": "1/2", "target2": "2/4", "format": "digits"},
-        {"target1": "2/5", "target2": "4/10", "format": "digits"},
+        {"target1": "2/9", "target2": "2/3", "format": "digits", "framing": "numerical"},
+        {"target1": "3/4", "target2": "5/4", "format": "digits", "framing": "numerical"},
+        {"target1": "1/2", "target2": "1/3", "format": "digits", "framing": "numerical"},
+        {"target1": "8/3", "target2": "3/8", "format": "digits", "framing": "numerical"},
+        {"target1": "1/2", "target2": "2/4", "format": "digits", "framing": "numerical"},
+        {"target1": "2/5", "target2": "4/10", "format": "digits", "framing": "numerical"},
 
-        {"target1": "1/4", "target2": "1/3", "format": "letters"},
-        {"target1": "6/10", "target2": "6/5", "format": "letters"},
-        {"target1": "5/8", "target2": "3/8", "format": "letters"},
-        {"target1": "5/2", "target2": "2/5", "format": "letters"},
-        {"target1": "1/2", "target2": "5/10", "format": "letters"},
-        {"target1": "3/4", "target2": "4/8", "format": "letters"}
+        {"target1": "1/4", "target2": "1/3", "format": "letters", "framing": "spatial"},
+        {"target1": "6/10", "target2": "6/5", "format": "letters", "framing": "spatial"},
+        {"target1": "5/8", "target2": "3/8", "format": "letters", "framing": "spatial"},
+        {"target1": "5/2", "target2": "2/5", "format": "letters", "framing": "spatial"},
+        {"target1": "1/2", "target2": "5/10", "format": "letters", "framing": "spatial"},
+        {"target1": "3/4", "target2": "4/8", "format": "letters", "framing": "spatial"}
       ]
     },
     {

@@ -7,13 +7,16 @@
     <!-- Load jsPsych -->
     <script type="text/javascript" src="../libraries/jsPsych-7.3.0/jspsych.js"></script>
     <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-html-form.js"></script>
-    <!-- Old version -->
+    <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-multi-choice.js"></script>
+    <!-- Helpers -->
+    <script type="text/javascript" src="./src/exercise-generators.js"></script>
+    <!-- TODO move into exercise generator? -->
+    <script type="text/javascript" src="./survey-fraction.js"></script>
     <!-- <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey.js"></script> -->
     <script src="https://unpkg.com/@jspsych/plugin-survey@3.0.0"></script>
     <link href="../libraries/jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://unpkg.com/@jspsych/plugin-survey@3.0.0/css/survey.min.css">
 
-    <script type="text/javascript" src="./survey-fraction.js"></script>
   </head>
   <body></body>
 
@@ -21,7 +24,6 @@
     // NB : this is asynchronous and probably requires localhost.
     // let EXPERIMENT_CONFIG = await fetch(`../config/standard-exercises-task/${queryDict.file}.json`).then(r => r.json());
     let EXPERIMENT_CONFIG = await fetch(`../config/standard-exercises-task/exercises.json`).then(r => r.json());
-
 
     function createSurveyOptions(options) {
       let optionsDivs = options.map(o =>  `
@@ -45,6 +47,8 @@
     const jsPsych = initJsPsych({
       // on_finish: () => jsPsych.data.displayData(),
     });
+
+    let exerciseGenerator = new ExerciseGenerator(jsPsych);
 
     const fractionList = [
       [1, 2],
@@ -88,83 +92,28 @@
      };
 
     let timeline = []
-    for (let exercise_config of EXPERIMENT_CONFIG.exercises){
-      let exercise_procedure = null;
-      switch (exercise_config.name) {
-        case "fraction_selection":
-          exercise_procedure = generate_fraction_selection_exercise(exercise_config.items, true)
+    for (let exerciseConfig of EXPERIMENT_CONFIG.exercises){
+      let exerciseProcedure = null;
+      switch (exerciseConfig.name) {
+        // case "fraction_addition":
+        //   exerciseProcedure = generateFractionAdditionExerciseProcedure(exerciseConfig.items, true)
+        //   break;
+        case "fraction_comparison":
+          exerciseProcedure = exerciseGenerator.generateFractionComparisonExerciseProcedure(exerciseConfig.items, true)
           break;
+        // case "fraction_selection":
+        //   exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, true)
+        //   break;
         default:
-          console.error(`Invalid exercise name: ${exercise_config.name}. Skipping...`)
+          console.error(`Invalid exercise name: ${exerciseConfig.name}. Skipping...`)
           continue;
       }
 
-      timeline = timeline.concat(exercise_procedure)
-    }
-
-    function generate_fraction_selection_exercise(items, randomize = false){
-      let jsons = []
-      for(let item of items){
-        let choices = [];
-        for (let choice of item.choices){
-          choices.push({
-            value: `${choice.target} - ${choice.model}`,
-            imageLink: `./res/fraction-images/${choice.filename}.png`,
-            text: null
-          })
-        }
-
-        let components = item.target.split("/");
-        let numerator = components[0];
-        let denominator = components[1];
-
-        let json = {
-          "elements": [
-             {
-               type: "imagepicker",
-               name: "fractions",
-               // Not working, because the text is wrapped in a span of class "sv-string-viewer" which displays html as plain text.
-               // "title": `Choisis la fraction qui correspond à ${createFractionHTML(numerator, denominator)}`,
-               title: `Choisis la fraction qui correspond à ${item.target}`,
-               description: "",
-               isRequired: true,
-               choices: choices,
-               showLabel: false,
-               multiSelect: false,
-               imageWidth: 200,
-               imageHeight: 200
-             }
-          ]
-        };
-
-        jsons.push(json)
-      }
-
-      if (randomize)
-        jsons = jsPsych.randomization.shuffle(jsons)
-
-      let timeline = []
-      for (let json of jsons){
-        let surveyTrial = {
-         type: jsPsychSurvey,
-         survey_json: {
-           title: null,
-           completeText: 'Suivant',
-           pages: [json]
-         },
-         on_finish: function(data){
-           document.getElementById("jspsych-content").innerHTML = ""
-         }
-        };
-
-        timeline.push(surveyTrial)
-      }
-
-      return {timeline: timeline};
+      timeline = timeline.concat(exerciseProcedure)
     }
 
 
-     console.log('test')
+
     jsPsych.run(timeline)
     // jsPsych.run([surveyTrial]);
     // jsPsych.run([inputTrial]);
