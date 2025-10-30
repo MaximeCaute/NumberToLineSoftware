@@ -1,17 +1,17 @@
 {
   "exercises": [
     {
-      "name": "integer_operations",
+      "name": "integer_arithmetic",
       "items": [
-        {"prompt": "1 + 4"},
-        {"prompt": "3 + 3"},
-        {"prompt": "4 + 7"},
-        {"prompt": "2 x 3"},
-        {"prompt": "3 x 4"},
-        {"prompt": "4 x 3"},
-        {"prompt": "2 ÷ 2"},
-        {"prompt": "6 ÷ 3"},
-        {"prompt": "12 ÷ 4"}
+        {"operand1": "1", "operator": "+", "operand2": "4"},
+        {"operand1": "3", "operator": "+", "operand2": "3"},
+        {"operand1": "4", "operator": "+", "operand2": "7"},
+        {"operand1": "2", "operator": "x", "operand2": "3"},
+        {"operand1": "3", "operator": "x", "operand2": "4"},
+        {"operand1": "4", "operator": "x", "operand2": "3"},
+        {"operand1": "2", "operator": "÷", "operand2": "2"},
+        {"operand1": "6", "operator": "÷", "operand2": "3"},
+        {"operand1": "12", "operator": "÷", "operand2": "4"}
       ]
     },
     {

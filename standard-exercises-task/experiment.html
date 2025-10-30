@@ -79,6 +79,9 @@
     for (let exerciseConfig of EXPERIMENT_CONFIG.exercises){
       let exerciseProcedure = null;
       switch (exerciseConfig.name) {
+        case "integer_arithmetic":
+          exerciseProcedure = exerciseGenerator.generateIntegerArithmeticExerciseProcedure(exerciseConfig.items, true)
+          break;
         case "fraction_addition":
           switch(exerciseConfig.choice){
             case "free":

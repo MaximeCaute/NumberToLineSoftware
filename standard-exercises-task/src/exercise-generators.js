@@ -54,6 +54,32 @@ class ExerciseGenerator {
     `
   }
 
+  generateIntegerArithmeticExerciseProcedure(items, randomize = false){
+    // TODO : I think every generate... could simply define the timeline: everything else is similar
+    let exerciseProcedure = {
+      timeline: [
+        {
+            type: jsPsychSurveyHtmlForm,
+            preamble: "Calcule le résultat :",
+            html: () => `
+              ${this.jsPsych.timelineVariable("operand1")}
+              ${this.jsPsych.timelineVariable("operator")}
+              ${this.jsPsych.timelineVariable("operand2")}
+              =
+              <div class="fraction-input">
+                <input type="number" id="value" name="value" placeholder=" " required>
+              </div>
+            `,
+            button_label: "Suivant",
+        }
+      ],
+      timeline_variables: items,
+      randomize_order: randomize
+    };
+
+    return exerciseProcedure;
+  }
+
   // TODO randomize effect
   generateFractionComparisonExerciseProcedure(items, randomize = false){
     function generatePreamble(target1, target2, format, framing){
