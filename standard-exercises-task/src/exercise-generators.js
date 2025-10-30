@@ -54,7 +54,7 @@ class ExerciseGenerator {
     `
   }
 
-  // TODO ORDER
+  // TODO randomize effect
   generateFractionComparisonExerciseProcedure(items, randomize = false){
     function generatePreamble(target1, target2, format, framing){
       let fractionFormatFunction = null;
@@ -209,6 +209,43 @@ class ExerciseGenerator {
       ],
       timeline_variables: items
     };
+
+    return exerciseProcedure;
+  }
+
+  generateFractionBrackettingExerciseProcedure(items, randomize = false){
+    // TODO use framing and format
+    function generatePreamble(target, framing, format){
+      let components = target.split("/");
+      let numerator = components[0]
+      let denominator = components[1]
+
+      return `Complète la phrase : <br/>
+        La fraction
+        ${createFractionHTML(numerator, denominator)}
+        peut se placer entre les entiers...`
+
+    }
+
+    let exerciseProcedure = {
+      timeline: [{
+        type: jsPsychSurveyMultiChoice,
+        preamble: () => generatePreamble(
+           this.jsPsych.timelineVariable("target"),
+           this.jsPsych.timelineVariable("framing"),
+           this.jsPsych.timelineVariable("format")
+        ),
+        questions: [{
+          prompt: "",
+          options: () => this.jsPsych.timelineVariable("choices").map(([a, b]) => `${a} et ${b}`),
+          required: true, horizontal: true,
+        }],
+        button_label: "Question suivante",
+        data: {target: this.jsPsych.timelineVariable("target"), exercise: "bracket_integers"},
+      }],
+      timeline_variables: items,
+      randomize_order: randomize
+    }
 
     return exerciseProcedure;
   }

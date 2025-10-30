@@ -75,6 +75,7 @@
      };
 
     let timeline = []
+    // TODO should probably move to ExerciseGenerator class
     for (let exerciseConfig of EXPERIMENT_CONFIG.exercises){
       let exerciseProcedure = null;
       switch (exerciseConfig.name) {
@@ -93,6 +94,9 @@
           break;
         case "fraction_comparison":
           exerciseProcedure = exerciseGenerator.generateFractionComparisonExerciseProcedure(exerciseConfig.items, true)
+          break;
+        case "fraction_bracketting":
+          exerciseProcedure = exerciseGenerator.generateFractionBrackettingExerciseProcedure(exerciseConfig.items, true)
           break;
         // Requires network connection
         case "fraction_selection":
