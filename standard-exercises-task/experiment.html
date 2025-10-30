@@ -8,6 +8,8 @@
     <script type="text/javascript" src="../common/src/query-dict.js"></script>
     <script type="text/javascript"> const queryDict = QueryDict.readQueries() </script>
 
+    <!-- Saving stuff -->
+    <script type="text/javascript" src="../common/src/utils/saving-utils.js"></script>
 
     <!-- Load jsPsych -->
     <script type="text/javascript" src="../libraries/jsPsych-7.3.0/jspsych.js"></script>
@@ -35,7 +37,13 @@
     // ---------- jsPsych setup ----------
 
     const jsPsych = initJsPsych({
-      // on_finish: () => jsPsych.data.displayData(),
+      on_finish: function(data)
+      {
+        let currentFolderName = window.location.href.split("/").reverse()[1];
+        if (!queryDict.save)
+          SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_${queryDict.session}`);
+        // window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+      }
     });
 
     let exerciseGenerator = new ExerciseGenerator(jsPsych);
