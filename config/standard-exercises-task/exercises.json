@@ -1,0 +1,101 @@
+{
+  "exercises": [
+    {
+      "name": "integer_operations",
+      "items": [
+        {"prompt": "1 + 4"},
+        {"prompt": "3 + 3"},
+        {"prompt": "4 + 7"},
+        {"prompt": "2 x 3"},
+        {"prompt": "3 x 4"},
+        {"prompt": "4 x 3"},
+        {"prompt": "2 ÷ 2"},
+        {"prompt": "6 ÷ 3"},
+        {"prompt": "12 ÷ 4"}
+      ]
+    },
+    {
+      "name": "fraction_comparison",
+      "items": [
+        {"target1": "2/9", "target2": "2/3", "format": "digits"},
+        {"target1": "3/4", "target2": "5/4", "format": "digits"},
+        {"target1": "1/2", "target2": "1/3", "format": "digits"},
+        {"target1": "8/3", "target2": "3/8", "format": "digits"},
+        {"target1": "1/2", "target2": "2/4", "format": "digits"},
+        {"target1": "2/5", "target2": "4/10", "format": "digits"},
+
+        {"target1": "1/4", "target2": "1/3", "format": "letters"},
+        {"target1": "6/10", "target2": "6/5", "format": "letters"},
+        {"target1": "5/8", "target2": "3/8", "format": "letters"},
+        {"target1": "5/2", "target2": "2/5", "format": "letters"},
+        {"target1": "1/2", "target2": "5/10", "format": "letters"},
+        {"target1": "3/4", "target2": "4/8", "format": "letters"}
+      ]
+    },
+    {
+      "name": "fraction_addition",
+      "items": [
+        {"operand1": "1/2", "operand2": "1/2", "format": "digits", "choice": "forced", "choices": ["2/2", "2/4", "1/3"]},
+        {"operand1": "3/5", "operand2": "3/5", "format": "digits", "choice": "forced", "choices": ["7/5", "7/10", "3/9"]},
+        {"operand1": "4/3", "operand2": "1/3", "format": "digits", "choice": "forced", "choices": ["5/3", "5/6", "4/4"]},
+        {"operand1": "1/5", "operand2": "1/10", "format": "digits", "choice": "forced", "choices": ["4/10", "2/15", "1/6"]},
+
+        {"operand1": "1/4", "operand2": "1/4", "format": "letters", "choice": "forced", "choices": ["1/2", "2/8", "1/5"]},
+        {"operand1": "2/5", "operand2": "4/5", "format": "letters", "choice": "forced", "choices": ["6/5", "6/10", "2/9"]},
+        {"operand1": "2/2", "operand2": "1/2", "format": "letters", "choice": "forced", "choices": ["3/2", "3/4",  "2/3"]},
+        {"operand1": "1/3", "operand2": "1/6", "format": "letters", "choice": "forced", "choices": ["1/2", "2/9", "1/4"]},
+
+        {"operand1": "1/3", "operand2": "1/3", "format": "digits", "choice": "free", "choices": []},
+        {"operand1": "3/2", "operand2": "2/2", "format": "digits", "choice": "free", "choices": []},
+        {"operand1": "1/5", "operand2": "2/5", "format": "digits", "choice": "free", "choices": []},
+        {"operand1": "1/2", "operand2": "1/4", "format": "digits", "choice": "free", "choices": []}
+      ]
+    },
+    {
+      "name": "fraction_bracketting",
+      "items": [
+        {"target": "1/2", "format": "digits", "framing": "spatial", "choices": [["0","1"], ["1","2"], ["2","3"]]},
+        {"target": "2/3", "format": "digits", "framing": "spatial", "choices": [["0","1"], ["1","2"], ["2","3"]]},
+        {"target": "4/5", "format": "digits", "framing": "spatial", "choices": [["0","1"], ["4","5"], ["5","6"]]},
+        {"target": "5/4", "format": "digits", "framing": "spatial", "choices": [["0","1"], ["1","2"], ["4","5"]]},
+        {"target": "7/2", "format": "digits", "framing": "spatial", "choices": [["0","1"], ["3","4"], ["7","8"]]},
+        {"target": "7/5", "format": "digits", "framing": "spatial", "choices": [["0","1"], ["1","2"], ["6","7"]]}
+      ]
+    },
+    {
+      "name": "fraction_selection",
+      "items": [
+        {"target": "1/2", "format": "digits", "choices": [
+          {"target": "2/4", "model": "square", "filename": "two_fourths_square"},
+          {"target": "1/3", "model": "circle", "filename": "one_third_circle"},
+          {"target": "1/4", "model": "bar", "filename": "one_fourth_bar"}
+        ]},
+        {"target": "3/4", "format": "digits", "choices": [
+          {"target": "3/4", "model": "square", "filename": "three_fourths_square"},
+          {"target": "3/7", "model": "bar", "filename": "three_sevenths_bar"},
+          {"target": "2/3", "model": "circle", "filename": "two_thirds_circle"}
+        ]},
+        {"target": "1/4", "format": "digits", "choices": [
+          {"target": "1/4", "model": "circle", "filename": "one_fourth_circle"},
+          {"target": "1/5", "model": "bar", "filename": "one_fifth_bar"},
+          {"target": "2/4", "model": "square", "filename": "two_fourths_square"}
+        ]},
+        {"target": "4/4", "format": "digits", "choices": [
+          {"target": "8/8", "model": "circle", "filename": "eight_eighths_circle"},
+          {"target": "4/8", "model": "square", "filename": "four_eighths_square"},
+          {"target": "1/4", "model": "bar", "filename": "one_fourth_bar"}
+        ]},
+        {"target": "3/7", "format": "digits", "choices": [
+          {"target": "3/7", "model": "bar", "filename": "three_sevenths_bar"},
+          {"target": "3/10", "model": "bar", "filename": "three_tenths_bar"},
+          {"target": "3/4", "model": "bar", "filename": "three_fourths_bar"}
+        ]},
+        {"target": "1/3", "format": "digits", "choices": [
+          {"target": "1/3", "model": "bar", "filename": "one_third_bar"},
+          {"target": "1/4", "model": "bar", "filename": "one_fourth_bar"},
+          {"target": "1/2", "model": "bar", "filename": "one_half_unequal_bar"}
+        ]}
+      ]
+    }
+  ]
+}
