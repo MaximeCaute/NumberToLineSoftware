@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Fraction Survey Example</title>
 
+    <!-- QueryDict.load returns the list of queries. -->
+    <script type="text/javascript" src="../common/src/query-dict.js"></script>
+    <script type="text/javascript"> const queryDict = QueryDict.readQueries() </script>
+
+
     <!-- Load jsPsych -->
     <script type="text/javascript" src="../libraries/jsPsych-7.3.0/jspsych.js"></script>
     <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-html-form.js"></script>
@@ -21,9 +26,11 @@
   <body></body>
 
   <script type = "module">
-    // NB : this is asynchronous and probably requires localhost.
-    // let EXPERIMENT_CONFIG = await fetch(`../config/standard-exercises-task/${queryDict.file}.json`).then(r => r.json());
-    let EXPERIMENT_CONFIG = await fetch(`../config/standard-exercises-task/exercises.json`).then(r => r.json());
+
+    let subjectID = queryDict.id;
+
+    // NB : this is asynchronous, which requires the file to be opened via a server (possibly local).
+    let EXPERIMENT_CONFIG = await fetch(`../config/standard-exercises-task/${queryDict.file}.json`).then(r => r.json());
 
     // ---------- jsPsych setup ----------
 
