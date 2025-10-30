@@ -34,21 +34,32 @@
     },
     {
       "name": "fraction_addition",
+      "choice": "forced",
       "items": [
-        {"operand1": "1/2", "operand2": "1/2", "format": "digits", "choice": "forced", "choices": ["2/2", "2/4", "1/3"]},
-        {"operand1": "3/5", "operand2": "3/5", "format": "digits", "choice": "forced", "choices": ["7/5", "7/10", "3/9"]},
-        {"operand1": "4/3", "operand2": "1/3", "format": "digits", "choice": "forced", "choices": ["5/3", "5/6", "4/4"]},
-        {"operand1": "1/5", "operand2": "1/10", "format": "digits", "choice": "forced", "choices": ["4/10", "2/15", "1/6"]},
+        {"operand1": "1/2", "operand2": "1/2", "format": "digits", "choices": ["2/2", "2/4", "1/3"]},
+        {"operand1": "3/5", "operand2": "3/5", "format": "digits", "choices": ["7/5", "7/10", "3/9"]},
+        {"operand1": "4/3", "operand2": "1/3", "format": "digits", "choices": ["5/3", "5/6", "4/4"]},
+        {"operand1": "1/5", "operand2": "1/10", "format": "digits", "choices": ["4/10", "2/15", "1/6"]},
 
-        {"operand1": "1/4", "operand2": "1/4", "format": "letters", "choice": "forced", "choices": ["1/2", "2/8", "1/5"]},
-        {"operand1": "2/5", "operand2": "4/5", "format": "letters", "choice": "forced", "choices": ["6/5", "6/10", "2/9"]},
-        {"operand1": "2/2", "operand2": "1/2", "format": "letters", "choice": "forced", "choices": ["3/2", "3/4",  "2/3"]},
-        {"operand1": "1/3", "operand2": "1/6", "format": "letters", "choice": "forced", "choices": ["1/2", "2/9", "1/4"]},
+        {"operand1": "1/4", "operand2": "1/4", "format": "letters", "choices": ["1/2", "2/8", "1/5"]},
+        {"operand1": "2/5", "operand2": "4/5", "format": "letters", "choices": ["6/5", "6/10", "2/9"]},
+        {"operand1": "2/2", "operand2": "1/2", "format": "letters", "choices": ["3/2", "3/4",  "2/3"]},
+        {"operand1": "1/3", "operand2": "1/6", "format": "letters", "choices": ["1/2", "2/9", "1/4"]},
 
         {"operand1": "1/3", "operand2": "1/3", "format": "digits", "choice": "free", "choices": []},
         {"operand1": "3/2", "operand2": "2/2", "format": "digits", "choice": "free", "choices": []},
         {"operand1": "1/5", "operand2": "2/5", "format": "digits", "choice": "free", "choices": []},
         {"operand1": "1/2", "operand2": "1/4", "format": "digits", "choice": "free", "choices": []}
+      ]
+    },
+    {
+      "name": "fraction_addition",
+      "choice": "free",
+      "items": [
+        {"operand1": "1/3", "operand2": "1/3", "format": "digits"},
+        {"operand1": "3/2", "operand2": "2/2", "format": "digits"},
+        {"operand1": "1/5", "operand2": "2/5", "format": "digits"},
+        {"operand1": "1/2", "operand2": "1/4", "format": "digits"}
       ]
     },
     {

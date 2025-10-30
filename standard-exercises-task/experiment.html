@@ -79,7 +79,17 @@
       let exerciseProcedure = null;
       switch (exerciseConfig.name) {
         case "fraction_addition":
-          exerciseProcedure = exerciseGenerator.generateFractionAdditionExerciseProcedure(exerciseConfig.items, true)
+          switch(exerciseConfig.choice){
+            case "free":
+              exerciseProcedure = exerciseGenerator.generateFreeChoiceFractionAdditionExerciseProcedure(exerciseConfig.items, true)
+              break;
+            case "forced":
+              exerciseProcedure = exerciseGenerator.generateForcedChoiceFractionAdditionExerciseProcedure(exerciseConfig.items, true)
+              break;
+            default:
+              console.error(`Invalid choice type: ${exerciseConfig.choice}. Skipping...`);
+              continue;
+          }
           break;
         case "fraction_comparison":
           exerciseProcedure = exerciseGenerator.generateFractionComparisonExerciseProcedure(exerciseConfig.items, true)

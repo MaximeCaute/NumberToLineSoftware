@@ -116,7 +116,7 @@ class ExerciseGenerator {
     return exerciseProcedure;
   }
 
-  generateFractionAdditionExerciseProcedure(items, randomize = false){
+  generateForcedChoiceFractionAdditionExerciseProcedure(items, randomize = false){
     function createPreamble(target1, target2, operator, format, framing){
       let target1Components = target1.split("/");
       let target2Components = target2.split("/");
@@ -151,6 +151,60 @@ class ExerciseGenerator {
                 )
               ),
             button_label: "Submit",
+        }
+      ],
+      timeline_variables: items
+    };
+
+    return exerciseProcedure;
+  }
+
+  generateFreeChoiceFractionAdditionExerciseProcedure(items, randomize = false){
+    // todo postamble
+    function createFractionInputHTML(preamble){
+      return `
+       <div class="options-container" style="display:flex">
+         <div style="display:flex; align-items: center;"><p style="text-align: center">
+           ${preamble}
+         </p></div>
+         <div class="fraction-input">
+           <input type="number" id="num" name="numerator" placeholder=" " required>
+           <div class="fraction-line"></div>
+           <input type="number" id="den" name="denominator" placeholder=" " required>
+         </div>
+         <div id="error" class="error-msg">Please enter valid numbers for numerator and denominator.</div>
+       </div>
+     `;
+    }
+
+    function createLeftSide(target1, target2, operator, format, framing){
+      let target1Components = target1.split("/");
+      let target2Components = target2.split("/");
+
+      return `
+        ${createFractionHTML(target1Components[0], target1Components[1])}
+        ${operator}
+        ${createFractionHTML(target2Components[0], target2Components[1])}
+        =
+        `
+    }
+
+    // todo randomize choices
+    let exerciseProcedure = {
+      timeline: [
+        {
+            type: jsPsychSurveyHtmlForm,
+            preamble: "Calcule le résultat :",
+            html: () => createFractionInputHTML(
+              createLeftSide(
+                  this.jsPsych.timelineVariable("operand1"),
+                  this.jsPsych.timelineVariable("operand2"),
+                  "+",
+                  this.jsPsych.timelineVariable("format"),
+                  this.jsPsych.timelineVariable("framing"),
+                )
+              ),
+            button_label: "Suivant",
         }
       ],
       timeline_variables: items
