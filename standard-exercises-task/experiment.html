@@ -76,9 +76,9 @@
           exerciseProcedure = exerciseGenerator.generateFractionBrackettingExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
           break;
         // Requires network connection
-        case "fraction_selection":
-          exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
-          break;
+        // case "fraction_selection":
+        //   exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
+        //   break;
         default:
           console.error(`Invalid exercise name: ${exerciseConfig.name}. Skipping...`)
           continue;

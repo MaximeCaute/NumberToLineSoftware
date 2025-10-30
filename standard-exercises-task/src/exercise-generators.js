@@ -60,14 +60,20 @@ class ExerciseGenerator {
       timeline: [
         {
             type: jsPsychSurveyHtmlForm,
-            preamble: "Calcule le résultat :",
+            preamble: `<h4>Calcule le résultat :</h4>`,
             html: () => `
-              ${this.jsPsych.timelineVariable("operand1")}
-              ${this.jsPsych.timelineVariable("operator")}
-              ${this.jsPsych.timelineVariable("operand2")}
-              =
-              <div class="fraction-input">
-                <input type="number" id="value" name="value" placeholder=" " required>
+              <div style="display:flex">
+                <div style="display: flex; flex-direction: column; justify-content: center">
+                  <p>
+                  ${this.jsPsych.timelineVariable("operand1")}
+                  ${this.jsPsych.timelineVariable("operator")}
+                  ${this.jsPsych.timelineVariable("operand2")}
+                  =
+                  </p>
+                </div>
+                <div class="fraction-input">
+                  <input type="number" id="value" name="value" placeholder=" " required>
+                </div>
               </div>
             `,
             button_label: "Suivant",
@@ -99,10 +105,12 @@ class ExerciseGenerator {
       let target2Components = target2.split("/");
 
       let preamble = `
-        Complète la phrase suivante :
-        ${fractionFormatFunction(target1Components[0], target1Components[1])}
-        ${framing == "numerical" ? "c'est [...] que " : `se place${parseInt(target1Components[0])> 1 ? "nt" : ""} [...]`}
-        ${fractionFormatFunction(target2Components[0], target2Components[1])}
+        <h4>Complète la phrase suivante :</h4>
+        <div>
+          ${fractionFormatFunction(target1Components[0], target1Components[1])}
+          ${framing == "numerical" ? "c'est [...] que " : `se place${parseInt(target1Components[0])> 1 ? "nt" : ""} [...]`}
+          ${fractionFormatFunction(target2Components[0], target2Components[1])}
+        </div>
       `
       return preamble;
     }
@@ -149,11 +157,15 @@ class ExerciseGenerator {
       let target2Components = target2.split("/");
 
       return `
-        ${createFractionHTML(target1Components[0], target1Components[1])}
-        ${operator}
-        ${createFractionHTML(target2Components[0], target2Components[1])}
-        =
-        `
+        <h4>Choisis le bon résultat :</h4>
+        <div>
+          ${createFractionHTML(target1Components[0], target1Components[1])}
+          ${operator}
+          ${createFractionHTML(target2Components[0], target2Components[1])}
+          =
+          [...]
+        </div>
+      `
     }
 
     // todo randomize choices
@@ -214,7 +226,7 @@ class ExerciseGenerator {
         ${operator}
         ${createFractionHTML(target2Components[0], target2Components[1])}
         =
-        `
+      `
     }
 
     // todo randomize choices
@@ -222,7 +234,7 @@ class ExerciseGenerator {
       timeline: [
         {
             type: jsPsychSurveyHtmlForm,
-            preamble: "Calcule le résultat :",
+            preamble: "<h4>Calcule le résultat :</h4>",
             html: () => createFractionInputHTML(
               createLeftSide(
                   this.jsPsych.timelineVariable("operand1"),
@@ -249,10 +261,14 @@ class ExerciseGenerator {
       let numerator = components[0]
       let denominator = components[1]
 
-      return `Complète la phrase : <br/>
-        La fraction
-        ${createFractionHTML(numerator, denominator)}
-        peut se placer entre les entiers...`
+      return `
+        <h4> Complète la phrase suivante : </h4>
+        <div>
+          La fraction
+          ${createFractionHTML(numerator, denominator)}
+          peut se placer entre les entiers...
+        </div>
+      `
 
     }
 
