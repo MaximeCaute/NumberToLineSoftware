@@ -25,23 +25,6 @@
     // let EXPERIMENT_CONFIG = await fetch(`../config/standard-exercises-task/${queryDict.file}.json`).then(r => r.json());
     let EXPERIMENT_CONFIG = await fetch(`../config/standard-exercises-task/exercises.json`).then(r => r.json());
 
-    function createSurveyOptions(options) {
-      let optionsDivs = options.map(o =>  `
-        <div class="option-container">
-          <label class="fraction-label">
-            ${o.html}
-            <input type="radio" name="fraction" value="${o.value}" required>
-          </label>
-        </div>
-      `)
-
-      return `
-        <div class="options-container">
-          ${optionsDivs.join("\n")}
-        </div>
-      `
-    }
-
     // ---------- jsPsych setup ----------
 
     const jsPsych = initJsPsych({
@@ -60,7 +43,7 @@
     const fractionQuestion = {
       type: jsPsychSurveyHtmlForm,
       preamble: "<h3>Select the fraction you prefer:</h3>",
-      html: createSurveyOptions(fractionList),
+      html: ExerciseGenerator.createSurveyOptions(fractionList),
       button_label: "Submit",
     };
 
@@ -95,15 +78,16 @@
     for (let exerciseConfig of EXPERIMENT_CONFIG.exercises){
       let exerciseProcedure = null;
       switch (exerciseConfig.name) {
-        // case "fraction_addition":
-        //   exerciseProcedure = generateFractionAdditionExerciseProcedure(exerciseConfig.items, true)
-        //   break;
+        case "fraction_addition":
+          exerciseProcedure = exerciseGenerator.generateFractionAdditionExerciseProcedure(exerciseConfig.items, true)
+          break;
         case "fraction_comparison":
           exerciseProcedure = exerciseGenerator.generateFractionComparisonExerciseProcedure(exerciseConfig.items, true)
           break;
-        // case "fraction_selection":
-        //   exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, true)
-        //   break;
+        // Requires network connection
+        case "fraction_selection":
+          exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, true)
+          break;
         default:
           console.error(`Invalid exercise name: ${exerciseConfig.name}. Skipping...`)
           continue;

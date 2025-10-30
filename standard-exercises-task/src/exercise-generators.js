@@ -37,6 +37,23 @@ class ExerciseGenerator {
     this.jsPsych = jsPsych;
   }
 
+  static createSurveyOptions(options) {
+    let optionsDivs = options.map(o =>  `
+      <div class="option-container">
+        <label class="fraction-label">
+          ${o.html}
+          <input type="radio" name="fraction" value="${o.value}" required>
+        </label>
+      </div>
+    `)
+
+    return `
+      <div class="options-container">
+        ${optionsDivs.join("\n")}
+      </div>
+    `
+  }
+
   // TODO ORDER
   generateFractionComparisonExerciseProcedure(items, randomize = false){
     function generatePreamble(target1, target2, format, framing){
@@ -95,6 +112,49 @@ class ExerciseGenerator {
       ],
       timeline_variables: items
     }
+
+    return exerciseProcedure;
+  }
+
+  generateFractionAdditionExerciseProcedure(items, randomize = false){
+    function createPreamble(target1, target2, operator, format, framing){
+      let target1Components = target1.split("/");
+      let target2Components = target2.split("/");
+
+      return `
+        ${createFractionHTML(target1Components[0], target1Components[1])}
+        ${operator}
+        ${createFractionHTML(target2Components[0], target2Components[1])}
+        =
+        `
+    }
+
+    // todo randomize choices
+    let exerciseProcedure = {
+      timeline: [
+        {
+            type: jsPsychSurveyHtmlForm,
+            preamble: () =>
+              createPreamble(
+                this.jsPsych.timelineVariable("operand1"),
+                this.jsPsych.timelineVariable("operand2"),
+                "+",
+                this.jsPsych.timelineVariable("format"),
+                this.jsPsych.timelineVariable("framing"),
+              ),
+            html: () =>
+              ExerciseGenerator.createSurveyOptions(
+                this.jsPsych.randomization.shuffleNoRepeats(
+                  this.jsPsych.timelineVariable("choices")
+                  .map(f => f.split("/"))
+                  .map(([n, d]) => {return {html: createFractionHTML(n, d), value: `${n}/${d}`}})
+                )
+              ),
+            button_label: "Submit",
+        }
+      ],
+      timeline_variables: items
+    };
 
     return exerciseProcedure;
   }
