@@ -2,22 +2,27 @@
 <head>
   <title>Number Line</title>
   <meta charset="utf-8">
-  <link href="jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
-  <link href="videos.css" rel="stylesheet" type="text/css" />
+  <link href="../libraries/jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+  <link href="../common/style/videos.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+  <!-- QueryDict.load returns the list of queries. -->
+  <script type="text/javascript" src="../common/src/query-dict.js"></script>
+
+  <script type="text/javascript"> const queryDict = QueryDict.readQueries() </script>
+
+  <!-- Constants have to be loaded before query dict and query dict has to be loaded before everything else.  -->
   <script type="text/javascript" src="src/config/constants.js"></script>
   <script type="text/javascript" src="src/config/setup-query-dict.js"></script>
   <script type="text/javascript" src="src/config/start-options.js"></script>
-  <script type="text/javascript" src="src/config/feedback-options.js"></script>
-  <script type="text/javascript" src="src/experiment-core.js"></script>
 
-  <script type="text/javascript" src="src/utils/audio-utils.js"></script>
-  <script type="text/javascript" src="src/utils/json-utils.js"></script>
-  <script type="text/javascript" src="src/utils/html-utils.js"></script>
-  <script type="text/javascript" src="src/utils/math-utils.js"></script>
-  <script type="text/javascript" src="src/utils/saving-utils.js"></script>
-  <script type="text/javascript" src="src/utils/js-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/navigation-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/audio-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/json-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/html-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/math-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/saving-utils.js"></script>
+  <script type="text/javascript" src="../common/src/utils/js-utils.js"></script>
 
   <script type="text/javascript" src="src/gui/cardboard.js"></script>
   <script type="text/javascript" src="src/gui/tick.js"></script>
@@ -29,21 +34,29 @@
   <script type="text/javascript" src="src/math/error-flags.js"></script>
 
   <script type="text/javascript" src="src/instructions-template.js"></script>
-  <script type="text/javascript" src="locale/localizer.js"></script>
-  <script type="text/javascript" src="locale/fr-child.js"></script>
-  <script type="text/javascript" src="locale/fr-adult.js"></script>
 
-  <script type="text/javascript" src="config/gui-config.js"></script>
+  <script type="text/javascript" src="../locale/localizer.js"></script>
+  <script type="text/javascript" src="../locale/fr-child.js"></script>
+  <script type="text/javascript"> const localizer = new ChildFrenchLocalizer(); </script>
 
-  <script type="text/javascript" src="jsPsych-7.3.0/jspsych.js"></script>
-  <!-- <script type="text/javascript" src="jsPsych-7.3.0/plugins/plugin-html-keyboard-response.js"></script> -->
-  <script type="text/javascript" src="jsPsych-7.3.0/plugins/extension-mouse-tracking.js"></script>
-  <script type="text/javascript" src="jsPsych-7.3.0/plugins/plugin-instructions.js"></script>
-  <script type="text/javascript" src="jsPsych-7.3.0/plugins/plugin-preload.js"></script>
-  <script type="text/javascript" src="jsPsych-7.3.0/plugins/plugin-fullscreen.js"></script>
-  <script type="text/javascript" src="jsPsych-7.3.0/plugins/plugin-survey-text.js"></script>
-  <script type="text/javascript" src="jsPsych-7.3.0/plugins/plugin-video-keyboard-response.js"></script>
+  <!-- Load JsPsych and the desired plugins -->
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/jspsych.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-html-keyboard-response.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-image-keyboard-response.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/extension-mouse-tracking.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-instructions.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-fullscreen.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-text.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-preload.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-video-keyboard-response.js"></script>
+
+  <!-- Load the main task -->
+  <script type="text/javascript" src="src/experiment-core.js"></script>
   <script type="text/javascript" src="src/plugin-number-to-line.js"></script>
+
+  <!-- Load the config -->
+  <!-- Note, this might not be very clean... -->
+  <script type="text/javascript" src="../config/number-to-line-task/gui-config.js"></script>
 
   <!-- MAIN EXPERIMENT -->
   <script type="module">
@@ -57,13 +70,12 @@
       {
         // SavingUtils.saveLocal(jsPsych, `${subjectID}_T${session}`);
         document.getElementById("jspsych-content").innerHTML = "<p>Tu as fini l'entraînement !</p>";
+        window.location.replace(`../exercises-index.html`);
       }
     });
 
-    const localizer = new ChildFrenchLocalizer();
-
     // let EXPERIMENT_CONFIG = await fetch('./exp.json').then(r => r.json());
-    let EXPERIMENT_CONFIG = await fetch(`./config/config_files/${queryDict.file}.json`).then(r => r.json());
+    let EXPERIMENT_CONFIG = await fetch(`../config/number-to-line-task/${queryDict.file}.json`).then(r => r.json());
 
     jsPsych.data.addProperties({'screenX': screen.width});
     jsPsych.data.addProperties({'screenY': screen.height});
@@ -101,7 +113,7 @@
     timeline = timeline.concat(new ExperimentCore(jsPsych, EXPERIMENT_CONFIG, localizer, queryDict).generateTimeline());
 
     timeline.push(ExperimentCore.createInstructionsTrial(
-      [localizer.getMessage("EXPERIENCE_ENDED", [], "p")],
+      [localizer.getMessage("EXPERIMENT_ENDED", [], "p")],
       localizer.getMessage("TERMINATE")));
     console.log(timeline.length)
     jsPsych.run(timeline);

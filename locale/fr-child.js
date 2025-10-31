@@ -3,7 +3,7 @@ class ChildFrenchLocalizer extends Localizer {
     super();
 
     this.messages = {
-      "ID_QUERY": "Merci d'entrer ton identifiant."
+      "ID_QUERY": "Merci d'entrer ton identifiant.",
       "RANDOM_ID_GENERATED": `Un identifiant aléatoire t'a été assigné :</p><p>${Localizer.FORMATTABLE_MARKER}`,
 
 
@@ -17,6 +17,7 @@ class ChildFrenchLocalizer extends Localizer {
       "PREVIOUS": "Précédent",
       "NEXT": "Continuer",
       "TERMINATE": "Terminer",
+      "EXPERIMENT_ENDED": "Tu as terminé. Bravo !",
 
       "NEW_LINE": `La ligne ira de <strong>${Localizer.FORMATTABLE_MARKER} à ${Localizer.FORMATTABLE_MARKER}</strong>.`,
       "VISUAL_MODALITY_DISPLAY": `Les nombres <strong>s'afficheront</strong> sur la pancarte.`,
