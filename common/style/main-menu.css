@@ -1,0 +1,21 @@
+.grid {
+  column-gap: 10px;
+  row-gap: 5px;
+  display: grid;
+  grid-template-columns: max-content max-content max-content max-content;
+}
+
+.img-holder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 30px
+}
+
+.icon {
+  width: inherit;
+  height: inherit;
+  margin: 0 5px 0 0
+}
