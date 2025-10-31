@@ -36,4 +36,17 @@ class MathUtils {
     }
     return factors;
   }
+
+  static getGCD(a, b){
+    while (b !== 0) {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+  }
+
+  static getLCM(a, b){
+    return a * b  / MathUtils.getGCD(a, b);
+  }
 }

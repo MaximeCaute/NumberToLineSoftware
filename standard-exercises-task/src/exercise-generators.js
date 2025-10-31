@@ -1,3 +1,5 @@
+//import * as Rational from ../number-to-line-task/src/math/rational.js
+
 // TODO move to a localizer
 function fractionToWords(numerator, denominator){
   numerator = parseInt(numerator)
@@ -76,6 +78,35 @@ class ExerciseGenerator {
                 </div>
               </div>
             `,
+            data: {
+              target1: this.jsPsych.timelineVariable("operand1"),
+              operation: this.jsPsych.timelineVariable("operator"),
+              target2: this.jsPsych.timelineVariable("operand2"),
+              exercise: "fraction_comparison",
+              format: "digits",
+              framing: "numerical",
+              correct_response: () => {
+                let operand1 = parseInt(this.jsPsych.timelineVariable("operand1"));
+                let operand2 = parseInt(this.jsPsych.timelineVariable("operand2"));
+                let operator = this.jsPsych.timelineVariable("operator");
+
+                switch (operator){
+                  case "+":
+                    return operand1 + operand2;
+                  case "-":
+                    return operand1 - operand2;
+                  case "x":
+                  case "*":
+                    return operand1 * operand2;
+                  case "÷":
+                  case ":":
+                  case "/":
+                    return operand1 / operand2;
+                  default:
+                    console.error(`Unknow operator: ${operator}`)
+                }
+              },
+            },
             button_label: "Suivant",
         }
       ],
@@ -115,7 +146,7 @@ class ExerciseGenerator {
       return preamble;
     }
 
-    // TODO FORMAT
+    // TODO FORMATcomparison
     let exerciseProcedure = {
       timeline: [
         {
@@ -135,12 +166,50 @@ class ExerciseGenerator {
               required: true, horizontal: true
             }
           ],
-
-          button_label: "Question suivante",
           data: {
             target1: this.jsPsych.timelineVariable("target1"),
             target2: this.jsPsych.timelineVariable("target2"),
-            exercise: "compare_fractions_in_letters"
+            exercise: "fraction_comparison",
+            format: this.jsPsych.timelineVariable("format"),
+            framing: this.jsPsych.timelineVariable("framing"),
+            correct_response: () => {
+              // TODO implement type check in Rational.parse
+              let fraction1 = Rational.parse(this.jsPsych.timelineVariable("target1"));
+              let fraction2 = Rational.parse(this.jsPsych.timelineVariable("target2"));
+
+              let crossProduct1 = fraction1.numerator * fraction2.denominator;
+              let crossProduct2 = fraction2.numerator * fraction1.denominator;
+
+              if (MathUtils.isEqualWithMargin(crossProduct1, crossProduct2, Number.EPSILON)){
+                return "equivalent";
+              } else if (crossProduct1 < crossProduct2) {
+                return "smaller";
+              } else {
+                return "greater";
+              }
+            }
+          },
+          button_label: "Question suivante",
+          on_finish: function(data) {
+            let response = data.response["Q0"];
+            data.raw_response = response;
+
+            switch (response){
+              case "plus petit":
+              case "avant":
+                data.response = "smaller";
+                break;
+              case "la même chose":
+              case "au même endroit que":
+                data.response = "equivalent";
+                break;
+              case "plus grand":
+              case "après":
+                data.response = "greater";
+                break;
+              default:
+                console.error(`Invalid response: ${response}`)
+            }
           },
         }
       ],
@@ -189,7 +258,29 @@ class ExerciseGenerator {
                   .map(([n, d]) => {return {html: createFractionHTML(n, d), value: `${n}/${d}`}})
                 )
               ),
-            button_label: "Submit",
+            data: {
+              target1: this.jsPsych.timelineVariable("operand1"),
+              target2: this.jsPsych.timelineVariable("operand2"),
+              operation: "+",
+              exercise: "fraction_addition",
+              format: this.jsPsych.timelineVariable("format"),
+              framing: this.jsPsych.timelineVariable("framing"),
+              correct_response: () => {
+                let fraction1 = Rational.parse(this.jsPsych.timelineVariable("operand1"));
+                let fraction2 = Rational.parse(this.jsPsych.timelineVariable("operand2"));
+
+                // TODO probably should be a method of Rational
+                let commonDenominator = MathUtils.getLCM(fraction1.denominator, fraction2.denominator)
+                let fraction1Multiple = commonDenominator / fraction1.denominator
+                let fraction2Multiple = commonDenominator / fraction2.denominator
+
+                return `${
+                    fraction1Multiple * fraction1.numerator
+                    + fraction2Multiple * fraction2.numerator
+                  }/${commonDenominator}`
+              }
+            },
+            button_label: "Suivant",
         }
       ],
       timeline_variables: items,
@@ -244,6 +335,28 @@ class ExerciseGenerator {
                   this.jsPsych.timelineVariable("framing"),
                 )
               ),
+              data: {
+                target1: this.jsPsych.timelineVariable("operand1"),
+                target2: this.jsPsych.timelineVariable("operand2"),
+                operation: "+",
+                exercise: "fraction_addition",
+                format: this.jsPsych.timelineVariable("format"),
+                framing: this.jsPsych.timelineVariable("framing"),
+                correct_response: () => {
+                  let fraction1 = Rational.parse(this.jsPsych.timelineVariable("operand1"));
+                  let fraction2 = Rational.parse(this.jsPsych.timelineVariable("operand2"));
+
+                  // TODO probably should be a method of Rational
+                  let commonDenominator = MathUtils.getLCM(fraction1.denominator, fraction2.denominator)
+                  let fraction1Multiple = commonDenominator / fraction1.denominator
+                  let fraction2Multiple = commonDenominator / fraction2.denominator
+
+                  return `${
+                      fraction1Multiple * fraction1.numerator
+                      + fraction2Multiple * fraction2.numerator
+                    }/${commonDenominator}`
+                }
+            },
             button_label: "Suivant",
         }
       ],
@@ -286,7 +399,17 @@ class ExerciseGenerator {
           required: true, horizontal: true,
         }],
         button_label: "Question suivante",
-        data: {target: this.jsPsych.timelineVariable("target"), exercise: "bracket_integers"},
+        data: {
+          target1: this.jsPsych.timelineVariable("target"),
+          format: this.jsPsych.timelineVariable("format"),
+          framing: this.jsPsych.timelineVariable("framing"),
+          exercise: "bracket_fraction",
+          correct_response: () => {
+            let fraction = Rational.parse(this.jsPsych.timelineVariable("target"))
+
+            return `${Math.floor(fraction.value)} - ${Math.ceil(fraction.value)}`;
+          }
+        },
       }],
       timeline_variables: items,
       randomize_order: randomize

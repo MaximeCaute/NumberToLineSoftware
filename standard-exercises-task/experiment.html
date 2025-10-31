@@ -10,6 +10,7 @@
 
     <!-- Saving stuff -->
     <script type="text/javascript" src="../common/src/utils/saving-utils.js"></script>
+    <script type="text/javascript" src="../common/src/utils/math-utils.js"></script>
 
     <!-- Load jsPsych -->
     <script type="text/javascript" src="../libraries/jsPsych-7.3.0/jspsych.js"></script>
@@ -17,6 +18,8 @@
     <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-multi-choice.js"></script>
     <!-- Helpers -->
     <script type="text/javascript" src="./src/exercise-generators.js"></script>
+    <!-- TODO math should be in common helpers! -->
+    <script type="text/javascript" src="../number-to-line-task/src/math/rational.js"></script>
     <!-- TODO move into exercise generator? -->
     <script type="text/javascript" src="./survey-fraction.js"></script>
     <!-- <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey.js"></script> -->
@@ -76,9 +79,9 @@
           exerciseProcedure = exerciseGenerator.generateFractionBrackettingExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
           break;
         // Requires network connection
-        // case "fraction_selection":
-        //   exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
-        //   break;
+        case "fraction_selection":
+          exerciseProcedure = exerciseGenerator.generateFractionSelectionExerciseProcedure(exerciseConfig.items, exerciseConfig.randomize)
+          break;
         default:
           console.error(`Invalid exercise name: ${exerciseConfig.name}. Skipping...`)
           continue;
