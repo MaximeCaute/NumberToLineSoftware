@@ -45,6 +45,7 @@
         let currentFolderName = window.location.href.split("/").reverse()[1];
         if (!queryDict.save)
           SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_${queryDict.session}`);
+          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_${queryDict.session}`, data)
         // window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
       }
     });

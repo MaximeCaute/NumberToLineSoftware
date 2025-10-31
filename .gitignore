@@ -1,1 +1,4 @@
 local-files
+
+# Potentially sensitive server address and protocol
+write_data.php
