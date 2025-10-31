@@ -194,10 +194,11 @@ class ExerciseGenerator {
           },
           button_label: "Question suivante",
           on_finish: function(data) {
-            let response = data.response["Q0"];
-            data.raw_response = response;
+            data.choices = this.questions[0].options;
 
-            switch (response){
+            data.raw_response = data.response["Q0"];
+
+            switch (data.raw_response){
               case "plus petit":
               case "avant":
                 data.response = "smaller";
@@ -211,7 +212,7 @@ class ExerciseGenerator {
                 data.response = "greater";
                 break;
               default:
-                console.error(`Invalid response: ${response}`)
+                console.error(`Invalid response: ${data.raw_response}`)
             }
           },
         }
@@ -266,6 +267,7 @@ class ExerciseGenerator {
               target2: this.jsPsych.timelineVariable("operand2"),
               operation: "+",
               exercise: "fraction_addition",
+              choices: this.jsPsych.timelineVariable("choices"),
               format: this.jsPsych.timelineVariable("format"),
               framing: this.jsPsych.timelineVariable("framing"),
               correct_response: () => {
@@ -285,7 +287,7 @@ class ExerciseGenerator {
             },
             button_label: "Suivant",
             on_finish: function(data){
-              data.response = data.response["fraction"]
+              data.response = data.response["fraction"];
             }
         }
       ],
@@ -412,6 +414,7 @@ class ExerciseGenerator {
           target1: this.jsPsych.timelineVariable("target"),
           format: this.jsPsych.timelineVariable("format"),
           framing: this.jsPsych.timelineVariable("framing"),
+          choices: this.jsPsych.timelineVariable("choices"),
           exercise: "bracket_fraction",
           correct_response: () => {
             let fraction = Rational.parse(this.jsPsych.timelineVariable("target"))
