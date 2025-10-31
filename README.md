@@ -61,3 +61,7 @@ The logic is that any new experiment should only require changing `index.html` a
 ## Creating a new experiment.
 
 Index should pass an ID, file without extension (fetched in `config/number-to-line-task/`, can include a subpath) & session parameter & save parameter (todo, format into proper boolean)
+
+# Credits
+
+[Fraction icon](https://icons8.com/icon/VGyFwj9jyWyM/fraction) by [Icons8](https://icons8.com) 

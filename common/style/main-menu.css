@@ -1,3 +1,22 @@
+h1 {
+  width: 100%;
+  text-align: center;
+  font-size: 36px;
+}
+
+h2 {
+  width: 100%;
+  text-align: center;
+  font-size: 26px;
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .grid {
   column-gap: 10px;
   row-gap: 5px;
