@@ -108,6 +108,9 @@ class ExerciseGenerator {
               },
             },
             button_label: "Suivant",
+            on_finish: function(data){
+              data.response = data.response["value"]
+            }
         }
       ],
       timeline_variables: items,
@@ -281,6 +284,9 @@ class ExerciseGenerator {
               }
             },
             button_label: "Suivant",
+            on_finish: function(data){
+              data.response = data.response["fraction"]
+            }
         }
       ],
       timeline_variables: items,
@@ -358,6 +364,10 @@ class ExerciseGenerator {
                 }
             },
             button_label: "Suivant",
+            on_finish: function(data){
+              data.raw_response = data.response;
+              data.response = `${data.raw_response["numerator"]}/${data.raw_response["denominator"]}`;
+            }
         }
       ],
       timeline_variables: items,
@@ -395,10 +405,9 @@ class ExerciseGenerator {
         ),
         questions: [{
           prompt: "",
-          options: () => this.jsPsych.timelineVariable("choices").map(([a, b]) => `${a} et ${b}`),
+          options: () => this.jsPsych.timelineVariable("choices").map(([a, b]) => `${a}${" et "}${b}`),
           required: true, horizontal: true,
         }],
-        button_label: "Question suivante",
         data: {
           target1: this.jsPsych.timelineVariable("target"),
           format: this.jsPsych.timelineVariable("format"),
@@ -410,6 +419,11 @@ class ExerciseGenerator {
             return `${Math.floor(fraction.value)} - ${Math.ceil(fraction.value)}`;
           }
         },
+        button_label: "Question suivante",
+        on_finish: function(data){
+          data.raw_response = data.response["Q0"];
+          data.response = data.raw_response.replace(" et ", " - ");
+        }
       }],
       timeline_variables: items,
       randomize_order: randomize
@@ -440,7 +454,7 @@ class ExerciseGenerator {
         elements: [
            {
              type: "imagepicker",
-             name: "fractions",
+             name: "fraction-model",
              // Not working, because the text is wrapped in a span of class "sv-string-viewer" which displays html as plain text.
              // "title": `Choisis la fraction qui correspond à ${createFractionHTML(numerator, denominator)}`,
              title: `Choisis la fraction qui correspond à ${item.target}`,
@@ -456,6 +470,7 @@ class ExerciseGenerator {
 
         // We save this at the root of the json for putting in jspsych data
         target: item.target,
+        format: item.format,
       };
 
       jsons.push(json)
@@ -475,7 +490,8 @@ class ExerciseGenerator {
        },
        data: {
          target1: json.target,
-         choices: json.elements.choices,
+         choices: json.elements[0].choices,
+         format: json.format,
          exercise: "fraction_image_matching",
          correct_response: () => {
            let targetFraction = Rational.parse(json.target);
@@ -485,12 +501,15 @@ class ExerciseGenerator {
                targetFraction.value, choiceFraction.value, Number.EPSILON)
 
              if (areEquivalent)
-              return choice;
+              return choice.fraction;
            }
          }
        },
        on_finish: function(data){
-         document.getElementById("jspsych-content").innerHTML = ""
+         document.getElementById("jspsych-content").innerHTML = "";
+
+         data.raw_response = data.response["fraction-model"];
+         data.response = data.raw_response.split(" - ")[0];
        }
       };
 
