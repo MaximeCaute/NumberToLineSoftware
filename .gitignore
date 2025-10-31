@@ -2,3 +2,5 @@ local-files
 
 # Potentially sensitive server address and protocol
 write_data.php
+
+number-to-line-task/res/videos/feedback/*.mp4

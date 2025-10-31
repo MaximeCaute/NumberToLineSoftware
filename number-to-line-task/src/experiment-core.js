@@ -89,7 +89,8 @@ class ExperimentCore {
       return trials.map(t => t.errorFlags).filter(fs => fs.some(f => f == error)).length >= threshold
     }
 
-    let errorToFile = (error) => `./res/videos/feedback/${error}_feedback.mp4`;
+    // TODO make this dynamic
+    let errorToFile = (error) => `../res/videos/feedback/${error}_feedback.mp4`;
     let progressBar;
 
     let feedback = {
