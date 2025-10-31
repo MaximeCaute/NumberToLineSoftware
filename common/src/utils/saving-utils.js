@@ -6,8 +6,10 @@ class SavingUtils {
 
   // Requires a functional write_data.php
   static saveDataPHP(name, data){
+    console.log("Saving data via PHP!")
+
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', 'write_data.php');
+    xhr.open('POST', '../write_data.php');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify({fileprefix: name, filedata: data}));
   }
