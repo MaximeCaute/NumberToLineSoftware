@@ -53,7 +53,7 @@
         {"targetString": "1/2+1/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": true}}
       ],
       "shuffleTest": true,
-      "loopBelowSuccessThreshold": true,
+      "loopBelowSuccessThreshold": false,
       "successThreshold": 0.8,
       "testTrialsRepetitions": 1
     }

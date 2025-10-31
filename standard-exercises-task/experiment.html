@@ -46,7 +46,7 @@
         if (!queryDict.save)
           SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_${queryDict.session}`);
           SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_${queryDict.session}`, data.csv())
-        // window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+        window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
       }
     });
 
@@ -55,6 +55,25 @@
     let timeline = []
     // TODO should probably move to ExerciseGenerator class
     for (let exerciseConfig of EXPERIMENT_CONFIG.exercises){
+      // TODO use a more generic formatting approach
+      switch(exerciseConfig.randomize){
+        case "true":
+        case "TRUE":
+        case "t":
+        case "T":
+          exerciseConfig.randomize = true;
+          break;
+        case "false":
+        case "FALSE":
+        case "f":
+        case "F":
+          exerciseConfig.randomize = false;
+          break;
+        default:
+          console.error(`Invalid randomization value: ${exerciseConfig.randomize}. Defaulting to no randomization.`)
+          exerciseConfig.randomize = false;
+      }
+
       let exerciseProcedure = null;
       switch (exerciseConfig.name) {
         case "integer_arithmetic":
