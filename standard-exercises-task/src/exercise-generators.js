@@ -425,6 +425,8 @@ class ExerciseGenerator {
       for (let choice of item.choices){
         choices.push({
           value: `${choice.target} - ${choice.model}`,
+          fraction: choice.target,
+          model: choice.model,
           imageLink: `./res/fraction-images/${choice.filename}.png`,
           text: null
         })
@@ -435,7 +437,7 @@ class ExerciseGenerator {
       let denominator = components[1];
 
       let json = {
-        "elements": [
+        elements: [
            {
              type: "imagepicker",
              name: "fractions",
@@ -448,9 +450,12 @@ class ExerciseGenerator {
              showLabel: false,
              multiSelect: false,
              imageWidth: 200,
-             imageHeight: 200
+             imageHeight: 200,
            }
-        ]
+        ],
+
+        // We save this at the root of the json for putting in jspsych data
+        target: item.target,
       };
 
       jsons.push(json)
@@ -467,6 +472,22 @@ class ExerciseGenerator {
          title: null,
          completeText: 'Suivant',
          pages: [json]
+       },
+       data: {
+         target1: json.target,
+         choices: json.elements.choices,
+         exercise: "fraction_image_matching",
+         correct_response: () => {
+           let targetFraction = Rational.parse(json.target);
+           for (let choice of json.elements[0].choices){
+             let choiceFraction = Rational.parse(choice.fraction);
+             let areEquivalent = MathUtils.isEqualWithMargin(
+               targetFraction.value, choiceFraction.value, Number.EPSILON)
+
+             if (areEquivalent)
+              return choice;
+           }
+         }
        },
        on_finish: function(data){
          document.getElementById("jspsych-content").innerHTML = ""
