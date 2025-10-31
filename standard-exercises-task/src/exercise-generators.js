@@ -24,7 +24,7 @@ function fractionToWords(numerator, denominator){
       singularDenominatorWord = 'quart'
       break;
     default:
-      let canonicalDenominatorRoot = numberNames[denominator].replace(/e$/, "").replace(/f$/, "v");
+      let canonicalDenominatorRoot = numberNames[denominator].replace(/e$/, "").replace(/f$/, "v").replace(/q$/, "qu");
       singularDenominatorWord =`${canonicalDenominatorRoot}ième`;
   }
   let denominatorWord = `${singularDenominatorWord}${!singularDenominatorWord.endsWith("s") && numerator > 1 ? "s" : ""}`
@@ -39,6 +39,7 @@ class ExerciseGenerator {
     this.jsPsych = jsPsych;
   }
 
+  // A bit weird code due to its parameters, should be reworked
   static createSurveyOptions(options) {
     let optionsDivs = options.map(o =>  `
       <div class="option-container">
@@ -228,15 +229,36 @@ class ExerciseGenerator {
     function createPreamble(target1, target2, operator, format, framing){
       let target1Components = target1.split("/");
       let target2Components = target2.split("/");
+      let fraction1 = Rational.parse(target1)
+      let fraction2 = Rational.parse(target2)
+
+      let header = `Choisis le bon résultat :`
+
+      let text = null;
+      switch(format){
+        case "digits":
+          text = `${
+              createFractionHTML(fraction1.numerator, fraction1.denominator)
+            }${operator}${
+              createFractionHTML(fraction2.numerator, fraction2.denominator)
+            } = &nbsp [...]`;
+          break;
+        case "letters":
+          text = `${
+              fractionToWords(fraction1.numerator, fraction1.denominator)
+            } ${"et"} ${
+              fractionToWords(fraction2.numerator, fraction2.denominator)
+            } ${"font [...]"} <br/>
+          `
+          break;
+        default:
+          console.error(`Invalid format: ${format}!`);
+      }
 
       return `
-        <h4>Choisis le bon résultat :</h4>
+        <h4>${header}</h4>
         <div>
-          ${createFractionHTML(target1Components[0], target1Components[1])}
-          ${operator}
-          ${createFractionHTML(target2Components[0], target2Components[1])}
-          =
-          [...]
+          ${text}
         </div>
       `
     }
@@ -254,14 +276,37 @@ class ExerciseGenerator {
                 this.jsPsych.timelineVariable("format"),
                 this.jsPsych.timelineVariable("framing"),
               ),
-            html: () =>
-              ExerciseGenerator.createSurveyOptions(
-                this.jsPsych.randomization.shuffleNoRepeats(
-                  this.jsPsych.timelineVariable("choices")
-                  .map(f => f.split("/"))
-                  .map(([n, d]) => {return {html: createFractionHTML(n, d), value: `${n}/${d}`}})
-                )
-              ),
+            html: () => {
+              let choiceFractions = this.jsPsych.timelineVariable("choices").
+                map(f => Rational.parse(f));
+
+              let choices = null
+              switch(this.jsPsych.timelineVariable("format")){
+                case "digits":
+                  choices = choiceFractions.map(f => {
+                    return {
+                      html: createFractionHTML(f.numerator, f.denominator),
+                      value: `${f.numerator}/${f.denominator}`
+                    }
+                  });
+                  break;
+                case "letters":
+                  choices = choiceFractions.map(f => {
+                    return {
+                      html: fractionToWords(f.numerator, f.denominator),
+                      value: `${f.numerator}/${f.denominator}`
+                    }
+                  });
+                  console.log(choices)
+                  break;
+                default:
+                  console.error(`Invalid format: ${format}!`);
+              }
+
+              return ExerciseGenerator.createSurveyOptions(
+                this.jsPsych.randomization.shuffleNoRepeats(choices)
+              );
+            },
             data: {
               target1: this.jsPsych.timelineVariable("operand1"),
               target2: this.jsPsych.timelineVariable("operand2"),
