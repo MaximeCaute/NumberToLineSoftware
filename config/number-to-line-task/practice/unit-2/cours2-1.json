@@ -109,7 +109,7 @@
         {"targetString": "0", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {}},
         {"targetString": "1", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {}},
         {"targetString": "2", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {}},
-        {"targetString": "4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {}},
+        {"targetString": "4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {}}
       ],
       "shuffleTraining": true,
       "trainingTrialsRepetitions": 1,

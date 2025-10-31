@@ -71,10 +71,10 @@
         {"targetString": "3/4", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": true}},
         {"targetString": "3/4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
         {"targetString": "2/4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
-        {"targetString": "6/4", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": true}},
+        {"targetString": "6/4", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": true}}
       ],
       "shuffleTest": true,
-      "testTrialsRepetitions": 2
+      "testTrialsRepetitions": 1
     }
   ],
 
