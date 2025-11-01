@@ -70,7 +70,8 @@
       {
         // SavingUtils.saveLocal(jsPsych, `${subjectID}_T${session}`);
         document.getElementById("jspsych-content").innerHTML = "<p>Tu as fini l'entraînement !</p>";
-        window.location.replace(`../exercises-index.html`);
+        // TODO extremely ugly - should be in a config file
+        window.location.replace(`../../exercices/index.html`);
       }
     });
 
