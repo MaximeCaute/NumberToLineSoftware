@@ -5,7 +5,7 @@
   <link href="jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
 
   <script type="text/javascript" src="./locale/localizer.js"></script>
-  <script type="text/javascript" src="./locale/en-child.js"></script>
+  <script type="text/javascript" src="./locale/fr-child.js"></script>
   <script type="text/javascript"> const localizer = new ChildFrenchLocalizer(); </script>
 </head>
 <body>
@@ -23,10 +23,10 @@
     } else {
 
       // Name of the folder
-      let order =  ["number-to-line-task", "standard-exercises-task"]
+      let order =  ["demographics-task", "number-to-line-task", "standard-exercises-task"]
 
       // TODO Dynamic file selection.
-      let config_files = queryDict.debug != undefined ? ["minimal_debug", "debug"] : ["tests-2025-2026", "exercises"]
+      let config_files = queryDict.debug != undefined ? ["", "minimal_debug", "debug"] : ["", "tests-2025-2026", "exercises"]
 
 
       let newTaskIndex = queryDict.lastTask != undefined ? order.indexOf(queryDict.lastTask) + 1 : 0;

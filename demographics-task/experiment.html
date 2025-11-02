@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+  <title>Demographics</title>
+  <meta charset="utf-8">
+  <link href="../libraries/jsPsych-7.3.0/css/jspsych.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <!-- TODO fetch? -->
+  <script type="text/javascript" src="../config/project-info.js"></script>
+
+  <!-- QueryDict.load returns the list of queries. -->
+  <script type="text/javascript" src="../common/src/query-dict.js"></script>
+  <script type="text/javascript"> const queryDict = QueryDict.readQueries() </script>
+
+  <script type="text/javascript" src="../common/src/utils/saving-utils.js"></script>
+
+  <script type="text/javascript" src="../locale/localizer.js"></script>
+  <script type="text/javascript" src="../locale/fr-child.js"></script>
+  <script type="text/javascript"> const localizer = new ChildFrenchLocalizer(); </script>
+
+  <!-- Load JsPsych and the desired plugins -->
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/jspsych.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-text.js"></script>
+  <script type="text/javascript" src="../libraries/jsPsych-7.3.0/plugins/plugin-survey-multi-choice.js"></script>
+
+  <script type="text/javascript" src="./demographics-procedure.js"></script>
+
+  <!-- MAIN EXPERIMENT -->
+  <script type="module">
+    let subjectID = queryDict.id;
+
+    // We initialize jsPsych
+    const jsPsych = initJsPsych({
+      show_progress_bar: false,
+      on_finish: function(data)
+      {
+        let currentFolderName = window.location.href.split("/").reverse()[1];
+        if (subjectID != ProjectInfo.NO_SAVE_ID){
+          // let data = jsPsych.data.get().ignore(['internal_node_id', 'view_history', 'info']);
+          SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_T${queryDict.session}`);
+          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_${queryDict.session}`, data.csv())
+        }
+
+        window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+      }
+    });
+
+    jsPsych.data.addProperties({'screenX': screen.width});
+    jsPsych.data.addProperties({'screenY': screen.height});
+    jsPsych.data.addProperties({'innerX': window.innerWidth});
+    jsPsych.data.addProperties({'innerY': window.innerHeight});
+    jsPsych.data.addProperties({'ID': subjectID});
+    jsPsych.data.addProperties({'session': queryDict.session});
+
+    let timeline = [];
+
+    timeline.push(createIdentificationProcedure(jsPsych, localizer))
+
+    jsPsych.run(timeline);
+  </script>
+</body>
