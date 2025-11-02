@@ -2,7 +2,9 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Fraction Survey Example</title>
+    <title>Exercices</title>
+      <!-- TODO fetch? -->
+      <script type="text/javascript" src="../config/project-info.js"></script>
 
     <!-- QueryDict.load returns the list of queries. -->
     <script type="text/javascript" src="../common/src/query-dict.js"></script>
@@ -43,9 +45,9 @@
       on_finish: function(data)
       {
         let currentFolderName = window.location.href.split("/").reverse()[1];
-        if (!queryDict.save)
-          SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_${queryDict.session}`);
-          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_${queryDict.session}`, data.csv())
+        if (!queryDict.save && subjectID != ProjectInfo.NO_SAVE_ID)
+          SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_T${queryDict.session}`);
+          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_T${queryDict.session}`, data.csv());
         window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
       }
     });
