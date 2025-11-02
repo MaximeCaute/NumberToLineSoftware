@@ -31,8 +31,9 @@
 
       let newTaskIndex = queryDict.lastTask != undefined ? order.indexOf(queryDict.lastTask) + 1 : 0;
 
+      const SESSION = 1
       // TODO BEWARE OF "&" in queries
-      let queriesToPass = `?id=${queryDict.id}&file=${config_files[newTaskIndex]}`;
+      let queriesToPass = `?id=${queryDict.id}&file=${config_files[newTaskIndex]}&session=${SESSION}`;
 
       if (newTaskIndex >= order.length){
         document.body.innerHTML = localizer.getMessage("EXPERIENCE_END_MESSAGE", [], "p");
