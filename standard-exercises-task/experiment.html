@@ -53,6 +53,13 @@
     let exerciseGenerator = new ExerciseGenerator(jsPsych);
 
     let timeline = []
+
+    timeline.push({
+      type: jsPsychFullscreen,
+      message: localizer.getMessage("FULLSCREEN_PROMPT", [], "p"),
+      button_label: localizer.getMessage("FULLSCREEN_LABEL"),
+    });
+
     // TODO should probably move to ExerciseGenerator class
     for (let exerciseConfig of EXPERIMENT_CONFIG.exercises){
       // TODO use a more generic formatting approach
