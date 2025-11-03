@@ -19,10 +19,13 @@ class Localizer {
 
     var message = "";
     for (var messageKey of messageKeys){
-      if (this.messages[messageKey] == null)
-        throw new Error(`Invalid key for localizer: ${messageKey}!`);
+      if (this.messages[messageKey] == null){
+        console.warn(`Invalid key for localizer: ${messageKey}!`);
+        message += messageKey;
+      } else {
+        message += Localizer.format(this.messages[messageKey], parameters);
+      }
 
-      message += Localizer.format(this.messages[messageKey], parameters);
       message += " "
     }
 
