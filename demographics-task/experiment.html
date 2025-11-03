@@ -34,14 +34,20 @@
       show_progress_bar: false,
       on_finish: function(data)
       {
+        // TODO factorize
         let currentFolderName = window.location.href.split("/").reverse()[1];
         if (subjectID != ProjectInfo.NO_SAVE_ID){
           // let data = jsPsych.data.get().ignore(['internal_node_id', 'view_history', 'info']);
           // SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_T${queryDict.session}`);
-          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_${queryDict.session}`, data.csv())
+          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_${queryDict.session}`, data.csv()).
+            then((response) => {
+              console.log("File save response:");
+              console.log(response);
+              window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+            });
+        } else {
+          window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
         }
-
-        window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
       }
     });
 

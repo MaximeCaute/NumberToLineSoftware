@@ -50,10 +50,17 @@
       on_finish: function(data)
       {
         let currentFolderName = window.location.href.split("/").reverse()[1];
-        if (!queryDict.save && subjectID != ProjectInfo.NO_SAVE_ID)
+        if (!queryDict.save && subjectID != ProjectInfo.NO_SAVE_ID){
           SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_T${queryDict.session}`);
-          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_T${queryDict.session}`, data.csv());
-        window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_T${queryDict.session}`, data.csv()).
+            then((response) => {
+              console.log("File save response:");
+              console.log(response);
+              window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+            });
+        } else {
+          window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+        }
       }
     });
 
