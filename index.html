@@ -36,7 +36,7 @@
       let queriesToPass = `?id=${queryDict.id}&file=${config_files[newTaskIndex]}&session=${SESSION}`;
 
       if (newTaskIndex >= order.length){
-        document.body.innerHTML = localizer.getMessage("EXPERIENCE_END_MESSAGE", [], "p");
+        document.body.innerHTML = localizer.getMessage("EXPERIMENT_END_MESSAGE", [], "p");
       } else {
         window.location.replace(`./${order[newTaskIndex]}/experiment.html${queriesToPass}`);
       }

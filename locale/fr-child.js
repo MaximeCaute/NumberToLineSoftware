@@ -18,6 +18,7 @@ class ChildFrenchLocalizer extends Localizer {
       "NEXT": "Continuer",
       "TERMINATE": "Terminer",
       "EXPERIMENT_ENDED": "Tu as terminé. Bravo !",
+      "EXPERIMENT_END_MESSAGE": "Tu as terminé et tes réponses ont bien été sauvegardées. Merci !",
 
       "NEW_LINE": `La ligne ira de <strong>${Localizer.FORMATTABLE_MARKER} à ${Localizer.FORMATTABLE_MARKER}</strong>.`,
       "VISUAL_MODALITY_DISPLAY": `Les nombres <strong>s'afficheront</strong> sur la pancarte.`,
