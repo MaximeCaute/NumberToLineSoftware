@@ -12,6 +12,7 @@
   <script type="text/javascript" src="../common/src/query-dict.js"></script>
   <script type="text/javascript"> const queryDict = QueryDict.readQueries() </script>
 
+  <script type="text/javascript" src="../common/src/utils/navigation-utils.js"></script>
   <script type="text/javascript" src="../common/src/utils/saving-utils.js"></script>
 
   <script type="text/javascript" src="../locale/localizer.js"></script>
@@ -34,19 +35,17 @@
       show_progress_bar: false,
       on_finish: function(data)
       {
-        // TODO factorize
-        let currentFolderName = window.location.href.split("/").reverse()[1];
-        if (subjectID != ProjectInfo.NO_SAVE_ID){
-          // let data = jsPsych.data.get().ignore(['internal_node_id', 'view_history', 'info']);
-          // SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_T${queryDict.session}`);
-          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_${queryDict.session}`, data.csv()).
-            then((response) => {
-              console.log("File save response:");
-              console.log(response);
-              window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
-            });
+        let currentFolderName = NavigationUtils.getCurrentFolder()
+        // TODO : the NO save check should probably be delegated to saving utils?
+        if (!queryDict.save && subjectID != ProjectInfo.NO_SAVE_ID){
+          SavingUtils.saveDataPHP(
+            `${subjectID}_${currentFolderName}_T${queryDict.session}`,
+            data.csv(),
+            ProjectInfo.NUMBER_OF_SAVE_ATTEMPTS,
+            () => NavigationUtils.returnToIndex(subjectID, currentFolderName)
+          )
         } else {
-          window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+          NavigationUtils.returnToIndex(subjectID, currentFolderName);
         }
       }
     });

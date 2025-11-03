@@ -10,4 +10,14 @@ class NavigationUtils{
 
     return new URL(path, sourceURL).href;
   }
+
+  static getCurrentFolder(){
+    return window.location.href.split("/").reverse()[1];
+  }
+
+  static returnToIndex(subjectID, currentFolderName){
+    window.location.replace(
+      `../index.html?id=${subjectID}&lastTask=${currentFolderName}`
+    );
+  }
 }

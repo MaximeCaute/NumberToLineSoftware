@@ -5,41 +5,8 @@ class SavingUtils {
   }
 
   // Requires a functional write_data.php
-  static saveDataPHP(name, data, timeout = 5000, numberOfTrials = 3){
+  static saveDataPHPWithPromise(name, data, numberOfTrials = 3){
     console.log("Saving data via PHP!")
-
-    // function trySend(trialsLeft){
-    //
-    //   console.log(`${trialsLeft} trials left.`);
-    //
-    //   if (trialsLeft <= 0){
-    //     console.log("No trials left for saving. Abandonning...");
-    //     return;
-    //   }
-    //
-    //   var xhr = new XMLHttpRequest();
-    //   xhr.open('POST', '../write_data.php');
-    //   xhr.setRequestHeader('Content-Type', 'application/json');
-    //
-    //   xhr.send(JSON.stringify({fileprefix: name, filedata: data}));
-    //   xhr.onreadystatechange = function(){
-    //     // No interest if not done.
-    //     if (xhr.readyState !== xhr.DONE)
-    //       return;
-    //
-    //     // Success
-    //     if (xhr.status === 200){
-    //       console.log("File successfully saved");
-    //       return;
-    //     }
-    //
-    //     console.log("Failure to save file!");
-    //
-    //     trySend(trialsLeft - 1)
-    //   }
-    // }
-    //
-    // trySend(numberOfTrials);
 
     async function trySend(trialsLeft){
       console.log("Trying to send data.");
@@ -53,7 +20,7 @@ class SavingUtils {
       if (!response.ok) {
         console.log("Failed to save file!");
 
-        if (trialsLeft == 0){
+        if (trialsLeft <= 0){
           console.log("No trials left for saving. Abandonning...");
           return response;
         }
@@ -68,5 +35,42 @@ class SavingUtils {
     }
 
     return trySend(numberOfTrials)
+  }
+
+  static saveDataPHP(name, data, numberOfTrials = 3, callback = function(){}){
+    SavingUtils.saveDataPHPWithPromise(name, data, numberOfTrials).
+      then((response) => {
+        console.log("File save response:");
+        console.log(response);
+
+        if (!response.ok){
+          document.body.innerHTML = ""
+
+          // We create HTML content via javascript
+          // This because we don't know the name of the callback
+          // So it cannot be used as <button onclick="...">
+          let errorMessageContainer = document.createElement("div");
+          errorMessageContainer.style.display = "flex";
+          errorMessageContainer.style.flexDirection = "column";
+          errorMessageContainer.style.justifyContent = "center";
+          errorMessageContainer.style.alignItems = "center";
+          errorMessageContainer.style.width = "100%";
+          errorMessageContainer.style.height = "100%";
+
+          let errorMessage = document.createElement("p");
+          errorMessage.innerHTML = localizer.getMessage("RESPONSES_NOT_SAVED")
+          errorMessageContainer.appendChild(errorMessage);
+
+          let continueButton = document.createElement("button");
+          continueButton.innerHTML = localizer.getMessage("NEXT")
+          continueButton.onclick = callback;
+          continueButton.style.width = "min-content";
+          errorMessageContainer.appendChild(continueButton);
+
+          document.body.appendChild(errorMessageContainer);
+        } else {
+          callback();
+        }
+      });
   }
 }

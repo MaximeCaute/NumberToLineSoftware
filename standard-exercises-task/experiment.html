@@ -16,6 +16,7 @@
 
     <!-- Saving stuff -->
     <script type="text/javascript" src="../common/src/utils/saving-utils.js"></script>
+    <script type="text/javascript" src="../common/src/utils/navigation-utils.js"></script>
     <script type="text/javascript" src="../common/src/utils/math-utils.js"></script>
 
     <!-- Load jsPsych -->
@@ -52,14 +53,15 @@
         let currentFolderName = window.location.href.split("/").reverse()[1];
         if (!queryDict.save && subjectID != ProjectInfo.NO_SAVE_ID){
           SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_T${queryDict.session}`);
-          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_T${queryDict.session}`, data.csv()).
-            then((response) => {
-              console.log("File save response:");
-              console.log(response);
-              window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
-            });
+          SavingUtils.saveDataPHP(
+            `${subjectID}_${currentFolderName}_T${queryDict.session}`,
+            data.csv(),
+            // Number of trials for saving
+            ProjectInfo.NUMBER_OF_SAVE_ATTEMPTS,
+            () => NavigationUtils.returnToIndex(subjectID, currentFolderName)
+          )
         } else {
-          window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+          NavigationUtils.returnToIndex(subjectID, currentFolderName);
         }
       }
     });

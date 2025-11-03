@@ -18,7 +18,7 @@ class ChildFrenchLocalizer extends Localizer {
       "NEXT": "Continuer",
       "TERMINATE": "Terminer",
       "EXPERIMENT_ENDED": "Tu as terminé. Bravo !",
-      "EXPERIMENT_END_MESSAGE": "Tu as terminé et tes réponses ont bien été sauvegardées. Merci !",
+      "EXPERIMENT_END_MESSAGE": "Tu as terminé. <strong>Merci</strong> pour ta participation !",
 
       "NEW_LINE": `La ligne ira de <strong>${Localizer.FORMATTABLE_MARKER} à ${Localizer.FORMATTABLE_MARKER}</strong>.`,
       "VISUAL_MODALITY_DISPLAY": `Les nombres <strong>s'afficheront</strong> sur la pancarte.`,
@@ -38,7 +38,9 @@ class ChildFrenchLocalizer extends Localizer {
       "BLOCK_ENDED": `Bravo ! Tu as terminé cette partie !`,
 
       "NUMBER_TO_LINE_EXPERIENCE_ENDED": `Tu as fini ce jeu, clique sur le bouton ci-dessous pour continuer !`,
-      "RESPONSES_SAVED": `Tes réponses ont bien été enregistrées. <strong>Merci !</strong>`,
+      "RESPONSES_SAVED": `Tes réponses ont bien été enregistrées.`,
+      "RESPONSES_NOT_SAVED": `Tes réponses n'ont pas pu être enregistrées. Signale-le à un adulte, puis continue !`,
+
 
       "INSTRUCTIONS_TITLE": `Instructions${Localizer.FORMATTABLE_MARKER}`,
       "INSTRUCTIONS_TEXT_1": `Dans cet exercice, tu verras une ligne numérique graduée.`,

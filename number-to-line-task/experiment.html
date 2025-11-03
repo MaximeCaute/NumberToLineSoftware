@@ -78,21 +78,18 @@
       on_finish: function(data)
       {
         let currentFolderName = window.location.href.split("/").reverse()[1];
-        // TODO check this -- we save while we shouldn't?
         // !QueryDict.save returns true if save is undefined
         if (!queryDict.save && subjectID != ProjectInfo.NO_SAVE_ID){
           SavingUtils.saveLocal(jsPsych, `${subjectID}_${currentFolderName}_T${queryDict.session}`);
-          SavingUtils.saveDataPHP(`${subjectID}_${currentFolderName}_T${queryDict.session}`, data.csv()).
-            then((response) => {
-              console.log("File save response:");
-              console.log(response);
-              return JsUtils.sleep(3000);
-            }).
-            then(() => {
-              window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
-            });
+          SavingUtils.saveDataPHP(
+            `${subjectID}_${currentFolderName}_T${queryDict.session}`,
+            data.csv(),
+            // Number of trials for saving,
+            ProjectInfo.NUMBER_OF_SAVE_ATTEMPTS,
+            () => NavigationUtils.returnToIndex(subjectID, currentFolderName)
+          )
         } else {
-          window.location.replace(`../index.html?id=${subjectID}&lastTask=${currentFolderName}`);
+          NavigationUtils.returnToIndex(subjectID, currentFolderName);
         }
       }
     });
