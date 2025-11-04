@@ -6,7 +6,7 @@
   <script src="./query-dict.js" charset="utf-8"></script>
 
   <script src="../../locale/localizer.js" charset="utf-8"></script>
-  <script src="../../locale/en-child.js" charset="utf-8"></script>
+  <script src="../../locale/fr-child.js" charset="utf-8"></script>
 
   <script src="../../libraries/jsPsych-7.3.0/jspsych.js" charset="utf-8"></script>
   <script src="../../libraries/jsPsych-7.3.0/plugins/plugin-survey-text.js" charset="utf-8"></script>
@@ -14,12 +14,56 @@
 </head>
 <body>
   <script type="text/javascript">
+    function createIdentificationProcedure(jsPsych, localizer){
+      let placeholderID = ""
+
+      let idSurvey = {
+        type: jsPsychSurveyText,
+        questions: [
+          {prompt: localizer.getMessage("ID_QUERY"), required: true},
+        ],
+        preamble: function(){return placeholderID == "" ? "" :
+          `<p style='color: red;'>Cet identifiant n'est pas le bon, réessaye !</p>
+          <p>Tu avais entré : <b>${placeholderID}</b></p>
+          `},
+        on_finish: function(data){
+          let trialsData = jsPsych.data.get().trials;
+          let lastTrial = trialsData[trialsData.length - 1]
+
+          // Define the subject ID...
+          subjectID = lastTrial.response.Q0;
+          jsPsych.data.addProperties({'ID': subjectID});
+
+          // Apply it retroactively for cleanliness
+          lastTrial.ID = subjectID;
+        }
+      };
+
+      let idSurveyProcedure = {
+        timeline: [idSurvey],
+        loop_function: function(data){
+            console.log(jsPsych.data)
+            let id = data.values()[0].response.Q0.toUpperCase()
+            placeholderID = id;
+            let isIdOkay = /^(N|([AV])\2{2}_2526_[A-Z]{3}_G(\d)\3{2}_(\d\d)\4{2}|DEBUG.*)$/.test(id)
+            if(isIdOkay){
+                return false;
+            } else {
+                return true;
+            }
+        }
+      }
+
+      return idSurveyProcedure
+  }
+
+    // TODO NavigationUtils
     function returnToIndex(){
       window.location.replace(`../../index.html?id=${subjectID}`)
     }
 
     const queryDict = QueryDict.readQueries()
-    const localizer = new ChildEnglishLocalizer()
+    const localizer = new ChildFrenchLocalizer()
 
     let subjectID;
 
@@ -43,19 +87,7 @@
       returnToIndex();
     } else {
       // Add a trial asking for ID
-      timeline.push({
-        type: jsPsychSurveyText,
-        questions: [
-          {prompt: localizer.getMessage("ID_QUERY")}
-        ],
-        on_finish: function(data){
-          let trialsData = jsPsych.data.get().trials;
-          let lastTrial = trialsData[trialsData.length - 1]
-
-          // Define the subject ID...
-          subjectID = lastTrial.response.Q0;
-        }
-      });
+      timeline.push(createIdentificationProcedure(jsPsych, localizer));
 
       jsPsych.run(timeline)
     }
