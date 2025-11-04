@@ -10,6 +10,9 @@ class ChildFrenchLocalizer extends Localizer {
       "FULLSCREEN_PROMPT": "Prêt à commencer ?",
       "FULLSCREEN_LABEL": "Oui !",
 
+      "DATE_OF_BIRTH_QUERY": "Merci d'entrer ta date de naissance (jour/mois/année).",
+      "DATE_OF_BIRTH_QUERY_SAVE_INFO": "Seul ton âge sera sauvegardé.",
+      "DATE_FORMAT_DDMMYYYY": "jj/mm/aaaa",
 
       "SPACE_BAR": `<b>[ESPACE]</b>`,
       "PRESS_ANY_KEY": `Appuie sur n'importe quelle touche pour continuer.`,
