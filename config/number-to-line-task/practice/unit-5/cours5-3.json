@@ -60,7 +60,6 @@
         {"targetString": "4/2", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
         {"targetString": "6/3", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
         {"targetString": "8/4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
-        {"targetString": "10/5", "mainInterval": 1, "graduationsPerUnit": 5, "flags": {"congruent": false}},
         {"targetString": "12/6", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": false}},
 
         {"targetString": "9/3", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": true}},
