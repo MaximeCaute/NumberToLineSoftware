@@ -154,12 +154,22 @@ class ExperimentCore {
   static formatTrialsData(trialData){
     let formattedData = JSON.parse(JSON.stringify(trialData));
 
-    let target = Rational.parse(formattedData.targetString)
-    formattedData.numberType = target.id;
+    let targetStrings = trialData.targetStrings ?? [trialData.targetString];
+    let parsedTargets = targetStrings.map(target => Rational.parse(target));
+
+    let primaryTarget = parsedTargets[0];
+    formattedData.numberType = primaryTarget.id;
     // TODO these two lines are deprecated
-    formattedData.numberFirstPart = target.components[0];
-    formattedData.numberSecondPart = target.components.length > 1 ? target.components[1] : -1;
-    formattedData.numberComponents = target.components
+    formattedData.numberFirstPart = primaryTarget.components[0];
+    formattedData.numberSecondPart = primaryTarget.components.length > 1 ? primaryTarget.components[1] : -1;
+    formattedData.numberComponents = primaryTarget.components;
+    formattedData.targetSequence = parsedTargets.map(target => ({
+      numberType: target.id,
+      components: target.components,
+      value: target.value,
+    }));
+    formattedData.targetStrings = targetStrings;
+    formattedData.targetString = targetStrings[0];
 
     // Handle graduations
     if (!Array.isArray(trialData.graduationsPerUnit))
@@ -169,6 +179,7 @@ class ExperimentCore {
     // Whatever will be saved!
     formattedData.flags = {
       targetString: trialData.targetString,
+      targetStrings: targetStrings,
       graduationsPerUnit: trialData.graduationsPerUnit,
       flags: trialData.flags
     }
@@ -185,6 +196,7 @@ class ExperimentCore {
       numberFirstPart: this.jsPsych.timelineVariable("numberFirstPart"),
       numberSecondPart: this.jsPsych.timelineVariable("numberSecondPart"),
       numberComponents: this.jsPsych.timelineVariable("numberComponents"),
+      targetSequence: this.jsPsych.timelineVariable("targetSequence"),
       majorGraduationInterval: this.jsPsych.timelineVariable("mainInterval"),
       minorGraduationInterval: this.jsPsych.timelineVariable("minorInterval"),
       useFeedback: isTraining ? config.feedback.correction.training : config.feedback.correction.test,

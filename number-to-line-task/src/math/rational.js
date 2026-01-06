@@ -31,6 +31,10 @@ class Rational{
   toImageNameWithDimensions(xSize, ySize, fractionImagePath = FRACTION_IMAGE_PATH){
     return fractionImagePath + this.toImageName() + `_${xSize}x${ySize}.png`;
   }
+
+  toDisplayString(){
+    return `${this.value}`;
+  }
 }
 
 class Fraction extends Rational{
@@ -45,6 +49,10 @@ class Fraction extends Rational{
 
   toImageName(){
     return `${this.numerator}_over_${this.denominator}`;
+  }
+
+  toDisplayString(){
+    return `${this.numerator}/${this.denominator}`;
   }
 
   decimalError(inverted, ten_value = 10){
@@ -71,6 +79,10 @@ class Decimal extends Rational{
   toImageName(){
     return `${this.wholePart}_comma_${this.decimalPart}`;
   }
+
+  toDisplayString(){
+    return `${this.wholePart}.${this.decimalPart}`;
+  }
 }
 
 class WholeNumber extends Rational{
@@ -82,6 +94,10 @@ class WholeNumber extends Rational{
   static REGEXPR = /^([0-9]+)$/
 
   toImageName(){
+    return `${this.value}`;
+  }
+
+  toDisplayString(){
     return `${this.value}`;
   }
 }
@@ -102,6 +118,10 @@ class FractionAddition extends Rational{
 
   toImageName(){
     return `${this.firstNumerator}_over_${this.firstDenominator}_plus_${this.secondNumerator}_over_${this.secondDenominator}`;
+  }
+
+  toDisplayString(){
+    return `${this.firstNumerator}/${this.firstDenominator}+${this.secondNumerator}/${this.secondDenominator}`;
   }
 }
 
@@ -144,6 +164,10 @@ class WholeOperation extends Rational{
 
   toImageName(){
     return `${this.firstTerm}_${this.sign == "+" ? "plus" : "minus"}_${this.secondTerm}`;
+  }
+
+  toDisplayString(){
+    return `${this.firstTerm}${this.sign}${this.secondTerm}`;
   }
 }
 
@@ -207,5 +231,11 @@ class WholeAndFractionOperation extends Rational{
     if (this.hasWholeNumberFirst)
       return `${this.wholeTerm}_${this.sign == "+" ? "plus" : "minus"}_${this.fractionNumerator}_over_${this.fractionDenominator}`;
     return `${this.fractionNumerator}_over_${this.fractionDenominator}_${this.sign == "+" ? "plus" : "minus"}_${this.wholeTerm}`;
+  }
+
+  toDisplayString(){
+    if (this.hasWholeNumberFirst)
+      return `${this.wholeTerm}${this.sign}${this.fractionNumerator}/${this.fractionDenominator}`;
+    return `${this.fractionNumerator}/${this.fractionDenominator}${this.sign}${this.wholeTerm}`;
   }
 }

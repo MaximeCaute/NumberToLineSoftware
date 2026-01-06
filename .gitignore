@@ -6,3 +6,5 @@ number-to-line-task/res/videos/feedback/*.mp4
 
 TODO.*
 temp.*
+
+*.diff
