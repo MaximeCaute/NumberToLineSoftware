@@ -1,0 +1,100 @@
+
+{
+  "experimentName": "NUMBER_LINE",
+
+  "trackMouse": false,
+
+  "startOption": "open-cardboard",
+
+  "trialMaxDuration": {
+    "training": -1,
+    "test": -1
+  },
+
+  "snap": {
+    "vertical": true,
+    "horizontal": true
+  },
+
+  "feedback":{
+    "correction": {
+      "training": true,
+      "test": true
+    }
+  },
+
+  "adaptiveFeedback": {
+    "memorySpan": 7,
+    "threshold": 3
+  },
+
+  "blocks": [
+    {
+      "min": 0,
+      "max": 3,
+      "modality": "visual",
+
+      "trainingTrials": [
+        {"targetString": "1/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {}},
+        {"targetString": "1/3", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {}},
+        {"targetString": "1/4", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {}}
+      ],
+      "shuffleTraining": true,
+      "trainingTrialsRepetitions": 1,
+
+      "testTrials": [
+        {"targetString": "1/2", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
+        {"targetString": "4/8", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
+
+        {"targetString": "1/3", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": false}},
+        {"targetString": "3/9", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": false}},
+
+        {"targetString": "1/4", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {"congruent": false}},
+        {"targetString": "2/8", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
+
+        {"targetString": "4/6", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": true}},
+        {"targetString": "2/3", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": false}},
+
+        {"targetString": "6/9", "mainInterval": 1, "graduationsPerUnit": 9, "flags": {"congruent": true}},
+        {"targetString": "2/3", "mainInterval": 1, "graduationsPerUnit": 9, "flags": {"congruent": false}},
+
+        {"targetString": "6/8", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
+        {"targetString": "3/4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}}
+      ],
+      "shuffleTest": false,
+      "testTrialsRepetitions": 1
+    },
+    {
+      "min": 0,
+      "max": 1,
+      "modality": "visual",
+
+      "trainingTrials": [
+        {"targetString": "1/2", "mainInterval": 1, "graduationsPerUnit": 2, "flags": {}},
+        {"targetString": "1/3", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {}},
+        {"targetString": "1/4", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {}}
+      ],
+      "shuffleTraining": true,
+      "trainingTrialsRepetitions": 1,
+
+      "testTrials": [
+
+        {"targetString": "2/3", "mainInterval": 1, "graduationsPerUnit": 6, "flags": {"congruent": false}},
+        {"targetString": "2/3", "mainInterval": 1, "graduationsPerUnit": 9, "flags": {"congruent": false}},
+        {"targetString": "3/4", "mainInterval": 1, "graduationsPerUnit": 8, "flags": {"congruent": false}},
+
+        {"targetString": "4/8", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
+        {"targetString": "3/9", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": false}},
+        {"targetString": "2/8", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
+
+        {"targetString": "4/8", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}},
+        {"targetString": "6/9", "mainInterval": 1, "graduationsPerUnit": 3, "flags": {"congruent": false}},
+        {"targetString": "6/8", "mainInterval": 1, "graduationsPerUnit": 4, "flags": {"congruent": false}}
+      ],
+      "shuffleTest": true,
+      "testTrialsRepetitions":1
+    }
+  ],
+
+  "shuffleBlocks": false
+}
