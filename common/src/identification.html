@@ -45,7 +45,7 @@
             console.log(jsPsych.data)
             let id = data.values()[0].response.Q0.toUpperCase()
             placeholderID = id;
-            let isIdOkay = /^(N|([AV])\2{2}_2526_[A-Z]{3}_G(\d)\3{2}_(\d\d)\4{2}|DEBUG.*)$/.test(id)
+            let isIdOkay = /^(N|([A-Z])\2{2}_2526_[A-Z]{3}_G(\d)\3{2}_(\d\d)\4{2}|DEBUG.*)$/.test(id)
             if(isIdOkay){
                 return false;
             } else {
