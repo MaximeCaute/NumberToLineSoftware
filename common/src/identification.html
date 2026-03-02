@@ -11,6 +11,7 @@
   <script src="../../libraries/jsPsych-7.3.0/jspsych.js" charset="utf-8"></script>
   <script src="../../libraries/jsPsych-7.3.0/plugins/plugin-survey-text.js" charset="utf-8"></script>
   <script src="../../libraries/jsPsych-7.3.0/plugins/plugin-instructions.js" charset="utf-8"></script>
+  <script src="../../libraries/jsPsych-7.3.0/plugins/plugin-survey-multi-choice.js" charset="utf-8"></script>
 </head>
 <body>
   <script type="text/javascript">
@@ -55,7 +56,34 @@
       }
 
       return idSurveyProcedure
-  }
+    }
+
+    // TODO
+    function createSessionIdentificationProcedure(jsPsych, localizer){
+      let testNumberSurvey = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [{
+          prompt: "Tu passes le test :",
+          name: "session",
+          options: ["N° 1", "N° 2", "N° 3"],
+          required: true
+        }],
+        on_finish: function(data){
+          let trialsData = jsPsych.data.get().trials;
+          let lastTrial = trialsData[trialsData.length - 1]
+
+          // Define the subject ID...
+          session = lastTrial.response.session;
+          jsPsych.data.addProperties({'session': session.split("N° ")[1]});
+
+          // Apply it retroactively for cleanliness
+          // Note this won't affect the first trial but meh
+          lastTrial.session = session;
+        }
+      }
+
+      return testNumberSurvey
+    }
 
     // TODO NavigationUtils
     function returnToIndex(){
@@ -88,6 +116,7 @@
     } else {
       // Add a trial asking for ID
       timeline.push(createIdentificationProcedure(jsPsych, localizer));
+      timeline.push(createSessionIdentificationProcedure(jsPsych, localizer));
 
       jsPsych.run(timeline)
     }
